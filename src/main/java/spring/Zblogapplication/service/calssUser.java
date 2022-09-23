@@ -21,12 +21,17 @@ public class calssUser implements UserInput {
 
 	@Override
 	public UserData getBlogById(int id) {
-		return data.getReferenceById(id);
+		return data.findById(id).get();
 	}
 
 	@Override
 	public void deleteById(int Id) {
 		 data.deleteById(Id);
+	}
+
+	@Override
+	public void save(UserData blog) {
+		data.save(blog);
 	}
 
 }

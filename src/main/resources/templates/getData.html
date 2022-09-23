@@ -5,15 +5,15 @@
     <title></title>
   </head>
   <body>
-  <a th:href="@{/showAddForm}">Add Post</a>
-    	<table class="">
-			<tr th:each="obj: ${data}">
-				<p th:text="${obj.name}" />
-				<td th:text="${obj.userBlog}" />
-		<form action="readData" method="post">
-		 		<button type="submit" name="id" th:value="${obj.id}"><strong>Read</strong></button>
-    	</form>
-			</tr>
-		</table>
+  <a th:href="@{/showAddForm}">Add Post</a>		
+    <div >
+      <div  th:each="obj: ${data}" style="height:200px; width:40%; display:inline-block;">
+			<p th:text="${obj.name}" />
+			<p th:text="${obj.userBlog}" />
+			<form action="readData" method="post">
+			 	<button type="submit" name="id" th:value="${obj.id}"><strong>Read</strong></button>
+	    	</form>			
+      </div >
+    </div>
   </body>
 </html>

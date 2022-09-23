@@ -5,13 +5,30 @@
     <title></title>
   </head>
   <body>
-		<table class="">
-			<tr th:each="obj: ${BlogPost.get()}">
+		<table>
+			<tr th:each="obj: ${BlogPost}">
 				<td th:text="${obj.userBlog}" />
-				<a th:href="@{/update(id=${obj.id})}">Update</a>
+				<a th:href="@{/updateData(id=${obj.id})}">Update</a>
 				<a th:href="@{/delete(id=${obj.id})}">Delete</a>
 			</tr>
 			
 		</table>
+		<br><br><br>
+		<div>
+			<div th:each="obj: ${BlogPost.comments}">	
+				<p th:text="${obj.name}">
+				<p th:text="${obj.email}">
+				<p th:text="${obj.comment}">
+				<p><a th:href="@{/update(id=${obj.id})}">Update Comment</a></p>
+				<p><a th:href="@{/deleteComment(id=${obj.id})}">Delete Comment</a></p>
+			</div>
+		</div>
+	                  	
+		<form action="#" th:action="@{/saveComment/{id} (id=${BlogPost.id})}"  method="post">
+			     name:<input name="name" type="text"><br> 
+			     Email:<input name="email"type="text"><br>
+			     <textarea id="comment"name="comment" ></textarea><br>
+			     <button type="submit" name="post_id" >Comment</button>
+    	</form>
   </body>
 </html>
