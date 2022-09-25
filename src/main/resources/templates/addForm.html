@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://www.thymeleaf.org">
   <head>
-    <meta charset="utf-8">
-    <title></title>
+ <meta charset="utf-8">
+ <title></title>
+ <style>
+</style>
   </head>
   <body>
-	<form action="#" th:action="@{/saveData}" th:object="${object}" method="post">
+  <h1>Welcome to BlogWriter</h1>
+	<form style="line-height:2;" action="#" th:action="@{/saveData}" th:object="${object}"  method="post">
 		 <input type="hidden" th:field="*{id}">
-	     name:<input type="text" th:field="*{name}"><br> 
-	     Blog:<input type="text" th:field="*{userBlog}"><br>
-	     <button type="submit" name="button">Submit</button>
+	     <input type="text" th:field="*{name}" placeholder="Name"><br> 
+	     <input type="text" th:value="${tag}" placeholder="Write tags" id="tag" name="tag"><br>
+	     <textarea id="text" th:field="*{userBlog}" >Write here...</textarea><br>
+	     <button style="margin-left:2rem;"type="submit" name="button">Submit</button>
     </form>
   </body>
 </html>

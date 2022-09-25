@@ -2,18 +2,20 @@ package spring.Zblogapplication.service;
 
 import java.util.List;
 
-import spring.Zblogapplication.springbootEntity.Comments;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import spring.Zblogapplication.springbootEntity.Tags;
+import spring.Zblogapplication.springbootRepository.TagsRepository;
 
+@Service
 public class dataTagsImp implements DataTags{
 
+	@Autowired
+	TagsRepository tag;
+	
 	@Override
-	public List<Tags> getAllComments() {// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Comments getCommentById(int id) {
+	public List<Tags> getAllTags() {
+		
 		return null;
 	}
 
@@ -23,8 +25,12 @@ public class dataTagsImp implements DataTags{
 	}
 
 	@Override
-	public void saveComment(Tags com) {
-	
+	public void saveTags(Tags entity) {
+		tag.save(entity);
 	}
 
+	@Override
+	public Tags getBlogById(int id) {
+		return null;
+	}
 }

@@ -5,10 +5,16 @@
     <title></title>
   </head>
   <body>
-  <a th:href="@{/showAddForm}">Add Post</a>		
-    <div >
-      <div  th:each="obj: ${data}" style="height:200px; width:40%; display:inline-block;">
-			<p th:text="${obj.name}" />
+  <a style="display:inline-block;"th:href="@{/showAddForm}"><h2><strong>Add Post</strong></h2></a>
+  
+  <form  style="display:inline-block; margin-left:850px; "  action="/search"  method="post">
+  	<input placeholder="search" name="search" type="text"></input>
+  	<button  type="submit">Search</button>
+  </form>
+  		
+    <div>
+      <div th:each="obj: ${data}" style="height:200px; width:45%; margin-top:10px;display:inline-block;border-style:solid; padding:0 5px;">
+			<h3 th:text="${obj.name}" />
 			<p th:text="${obj.userBlog}" />
 			<form action="readData" method="post">
 			 	<button type="submit" name="id" th:value="${obj.id}"><strong>Read</strong></button>
