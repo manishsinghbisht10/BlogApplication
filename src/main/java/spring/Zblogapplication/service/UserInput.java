@@ -13,7 +13,5 @@ public interface UserInput {
     public void deleteById(int Id);
     
     public void save(UserData blog);
-
-
    
 }

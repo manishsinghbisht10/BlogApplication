@@ -1,5 +1,7 @@
 package spring.Zblogapplication.springbootEntity;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,11 +20,12 @@ public class Comments {
 	@ManyToOne
 	@JoinColumn(name="postId",referencedColumnName = "id")
 	private UserData postId;
+	
 	private String name;
 	private String email;
 	private String comment;
-	private String created_at;
-	private String updated_at;
+	private LocalDateTime created_at;
+	private LocalDateTime updated_at;
 	
 	public int getId() {
 		return id;
@@ -54,17 +57,18 @@ public class Comments {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public String getCreated_at() {
+	public LocalDateTime getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(String created_at) {
+	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
 	}
-	public String getUpdated_at() {
+	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
-	public void setUpdated_at(String updated_at) {
+	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
 	}
+
 	
 }

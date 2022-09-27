@@ -1,5 +1,7 @@
 package spring.Zblogapplication.springbootController;
 
+import java.time.LocalDateTime;
+
 //import org.attoparser.dom.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ public class CommentController {
 	
 	@PostMapping("/saveComment/{id}")
 	public String save(@ModelAttribute Comments obj ,@PathVariable("id") int theId) {
+		LocalDateTime datetime = LocalDateTime.now();  
+	    obj.setCreated_at(datetime);
 		UserData post=new UserData();
 		post=data.getBlogById(theId);
 		obj.setPostId(post);

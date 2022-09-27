@@ -1,5 +1,6 @@
 package spring.Zblogapplication.springbootEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class Tags {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	int id;
 	private String name;
-	private String created_at;
-	private String updated_at;
+	private LocalDateTime created_at;
+	private LocalDateTime updated_at;
 	
 	
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "tags")
@@ -43,16 +44,17 @@ public class Tags {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getCreated_at() {
+	public LocalDateTime getCreated_at() {
 		return created_at;
 	}
-	public void setCreated_at(String created_at) {
+	public void setCreated_at(LocalDateTime created_at) {
 		this.created_at = created_at;
 	}
-	public String getUpdated_at() {
+	public LocalDateTime getUpdated_at() {
 		return updated_at;
 	}
-	public void setUpdated_at(String updated_at) {
+	public void setUpdated_at(LocalDateTime updated_at) {
 		this.updated_at = updated_at;
 	}
 }
+	

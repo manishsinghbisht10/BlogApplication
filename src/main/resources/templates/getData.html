@@ -7,9 +7,20 @@
   <body>
   <a style="display:inline-block;"th:href="@{/showAddForm}"><h2><strong>Add Post</strong></h2></a>
   
+  <!-- search -->
   <form  style="display:inline-block; margin-left:850px; "  action="/search"  method="post">
   	<input placeholder="search" name="search" type="text"></input>
   	<button  type="submit">Search</button>
+  </form>
+  
+  <!-- sorting -->
+  <form  style="display:inline-block; margin-left:950px; "  action="/sortPost"  method="get">
+  	<select id="object" name="object">
+  	  <option value="0" name="Sort">Sort</option>
+	  <option value="1" name="oldToNew">Old to New</option>
+	  <option value="2" name="newToOld">New To Old</option>
+	</select>
+  	<button  type="submit">Sort</button>
   </form>
   		
     <div>
@@ -18,7 +29,7 @@
 			<p th:text="${obj.userBlog}" />
 			<form action="readData" method="post">
 			 	<button type="submit" name="id" th:value="${obj.id}"><strong>Read</strong></button>
-	    	</form>			
+	    	</form>		
       </div >
     </div>
   </body>
