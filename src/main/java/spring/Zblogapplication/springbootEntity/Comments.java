@@ -18,8 +18,7 @@ public class Comments {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	@ManyToOne
-	@JoinColumn(name="postId",referencedColumnName = "id")
-	private UserData postId;
+	private Post postId;
 	
 	private String name;
 	private String email;
@@ -30,10 +29,10 @@ public class Comments {
 	public int getId() {
 		return id;
 	}
-	public UserData getPostId() {
+	public Post getPostId() {
 		return postId;
 	}
-	public void setPostId(UserData postId) {
+	public void setPostId(Post postId) {
 		this.postId = postId;
 	}
 	public void setId(int id) {

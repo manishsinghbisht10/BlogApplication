@@ -2,37 +2,39 @@ package spring.Zblogapplication.service;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import spring.Zblogapplication.springbootEntity.Comments;
 import spring.Zblogapplication.springbootRepository.CommentJpaRepository;
 
 @Service
-public class CommentImp implements Comment {
+public class CommentServiceImp implements CommentService {
 
 	@Autowired
-	CommentJpaRepository data;
+	CommentJpaRepository service;
 	
 	@Override
 	public void saveComment(Comments com) {
-		data.save(com);
+		service.save(com);
 	}
 
 	@Override
 	public List<Comments> getAllComments() {
-		return data.findAll();
+		return service.findAll();
 	}
 
 
 
 	@Override
 	public void deleteById(int Id) {
-		data.deleteById(Id);
+		service.deleteById(Id);
 	}
 
 	@Override
 	public Comments getCommentById(int id) {
-		return data.findById(id).get();
+		return service.findById(id).get();
 	}
 }

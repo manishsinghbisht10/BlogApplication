@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 @Entity
 @Table
-public class UserData {
+public class Post {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -39,12 +39,12 @@ public class UserData {
 	joinColumns = {@JoinColumn (name="userdata_id")},
 	inverseJoinColumns = {@JoinColumn(name="tags_id")}
 		)
-	private List<Tags>tags=new ArrayList<>();
+	private List<Tag>tags=new ArrayList<>();
 	
-	public List<Tags> getTags() {
+	public List<Tag> getTags() {
 		return tags;
 	}
-	public void setTags(List<Tags> tags) {
+	public void setTags(List<Tag> tags) {
 		this.tags = tags;
 	}
 

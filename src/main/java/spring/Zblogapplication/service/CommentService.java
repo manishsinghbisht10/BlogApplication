@@ -4,7 +4,7 @@ import java.util.List;
 
 import spring.Zblogapplication.springbootEntity.Comments;
 
-public interface Comment {
+public interface CommentService {
 	public List<Comments> getAllComments();
 
     public Comments getCommentById(int id);

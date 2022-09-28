@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Tags {
+public class Tag {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -25,14 +25,14 @@ public class Tags {
 	
 	
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "tags")
-	private List<UserData> post=new ArrayList<>();
+	private List<Post> post=new ArrayList<>();
 	public int getId() {
 		return id;
 	}
-	public List<UserData> getPost() {
+	public List<Post> getPost() {
 		return post;
 	}
-	public void setPost(List<UserData> post) {
+	public void setPost(List<Post> post) {
 		this.post = post;
 	}
 	public void setId(int id) {

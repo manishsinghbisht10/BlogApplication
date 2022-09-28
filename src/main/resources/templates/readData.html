@@ -30,7 +30,7 @@
 			
 		</div>
 		
-		<!-- Cooments -->
+		<!-- Comments -->
 		<h1>Comments</h1>
 		<div style="border-style:solid;">
 			<div th:each="obj: ${BlogPost.comments}">	
@@ -42,11 +42,14 @@
 			</div>
 		</div>
 	     <br>
+	     
+	     <!-- Comment form -->
 	     <h2>Write new Comment</h2>
 		<form action="#" th:action="@{/saveComment/{id} (id=${BlogPost.id})}"  method="post">
 			     <input name="name" type="text" placeholder="User Name"><br> 
 			     <input name="email"type="text" placeholder="User Email"><br>
 			     <textarea id="comment"name="comment" >Comment here...</textarea><br>
+			     hello
 			     <button style="margin-left:35px" type="submit" name="post_id">Comment</button>
     	</form>
   </body>
