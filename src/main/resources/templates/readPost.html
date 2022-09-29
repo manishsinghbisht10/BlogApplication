@@ -24,10 +24,9 @@
 		<div>
 			<div th:each="obj: ${BlogPost}">
 				<div class="box" th:text="${obj.userBlog}"></div>
-				<h3><a th:href="@{/updateData(id=${obj.id})}">Update</a></h3>
-				<h3><a th:href="@{/delete(id=${obj.id})}">Delete</a></h3>
+				<h3><a th:href="@{/updatePost(id=${obj.id})}">Update</a></h3>
+				<h3><a th:href="@{/deletePost(id=${obj.id})}">Delete</a></h3>
 			</div>
-			
 		</div>
 		
 		<!-- Comments -->
@@ -49,7 +48,6 @@
 			     <input name="name" type="text" placeholder="User Name"><br> 
 			     <input name="email"type="text" placeholder="User Email"><br>
 			     <textarea id="comment"name="comment" >Comment here...</textarea><br>
-			     hello
 			     <button style="margin-left:35px" type="submit" name="post_id">Comment</button>
     	</form>
   </body>

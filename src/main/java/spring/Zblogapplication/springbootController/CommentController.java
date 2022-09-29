@@ -24,30 +24,31 @@ public class CommentController {
 	PostService postService;
 	
 	@PostMapping("/saveComment/{id}")
-	public String save(@ModelAttribute Comments comment ,@PathVariable("id") int theId) {
+	public String saveComment(@ModelAttribute Comments comment ,@PathVariable("id") int theId,Model theModel) {
 		LocalDateTime datetime = LocalDateTime.now();  
 	    comment.setCreated_at(datetime);
 		Post post=new Post();
 		post=postService.getPostById(theId);
 		comment.setPostId(post);
 		commentService.saveComment(comment);
-		return "sucess";
+		theModel.addAttribute("BlogPost",postService.getPostById(theId));
+		return "readPost";
 	}
 	
 	@PostMapping("/updateComment/{id}")
-	public String updateComment(@ModelAttribute Comments obj,@PathVariable("id") int theId) {
+	public String updateComment(@ModelAttribute Comments comment,@PathVariable("id") int theId,Model theModel) {
 		Comments com=commentService.getCommentById(theId);
-		com.setName(obj.getName());
-		com.setEmail(obj.getEmail());
-		com.setComment(obj.getComment());
+		com.setName(comment.getName());
+		com.setEmail(comment.getEmail());
+		com.setComment(comment.getComment());
 		commentService.saveComment(com);
-		return "sucess";
+		return "redirect:/readPost"+"id";
 	}
 	
-	@GetMapping("/update")
+	@GetMapping("/update")//comment
 	public String update(Model theModel,int id) {
 		theModel.addAttribute("obj", commentService.getCommentById(id));
-		return "update";
+		return "updateComment";
 	}
 	
 	@GetMapping("/deleteComment")

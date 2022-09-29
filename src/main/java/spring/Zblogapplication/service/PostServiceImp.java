@@ -1,13 +1,11 @@
 package spring.Zblogapplication.service;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import spring.Zblogapplication.springbootEntity.Post;
 import spring.Zblogapplication.springbootRepository.PostJpaRepository;
 
@@ -20,12 +18,6 @@ public class PostServiceImp implements PostService {
 	@Override
 	public Page<Post> getAllPost(int pageNumber,int pageSize) {
 		PageRequest p=PageRequest.of((pageNumber-1),pageSize);
-		Page<Post> pagePost=this.service.findAll(p);
-		return pagePost;
-	}
-	
-	public Page<Post> sortPostDESC(int pageNumber,int pageSize) {
-		PageRequest p=PageRequest.of((pageNumber-1),pageSize,Sort.by("id").ascending());
 		Page<Post> pagePost=this.service.findAll(p);
 		return pagePost;
 	}
@@ -51,10 +43,25 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public Page<Post> sortPostASC(int pageNumber, int pageSize) {
-		PageRequest p=PageRequest.of((pageNumber-1),pageSize,Sort.by("id").descending());
-		Page<Post> pagePost=this.service.findAll(p);
-		return pagePost;
+	public Page<Post> search(Pageable pagable, String keyword) {
+		return service.search(pagable, keyword);
 	}
+
+	@Override
+	public Page<Post> searchASC(Pageable pagable, String keyword) {
+		return service.searchASC(pagable, keyword);
+	}
+
+	@Override
+	public Page<Post> sortTimeDESC(Pageable pageable) {
+		return service.sortTimeDESC(pageable);
+	}
+
+	@Override
+	public Page<Post> sortTimeASC(Pageable pageable) {
+		return service.sortTimeASC(pageable);
+	}
+
+	
 
 }

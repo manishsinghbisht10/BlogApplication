@@ -8,11 +8,9 @@ import spring.Zblogapplication.springbootEntity.Tag;
 public interface TagService {
 
 	public List<Tag> getAllTags();
-    
-    public void deleteTagById(int Id);
-    
+      
 	public void saveTag(Tag com);
 	
-	public Tag getPostById(int id);
+	Tag findTagByName(String tagName);
  
 }

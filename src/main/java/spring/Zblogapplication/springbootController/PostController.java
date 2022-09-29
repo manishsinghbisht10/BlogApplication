@@ -23,180 +23,133 @@ import spring.Zblogapplication.springbootRepository.TagsJpaRepository;
 public class PostController {
 	
 	@Autowired
-	 PostService service;
+	 PostService postService;
 	
 	@Autowired
-	 TagService data;
-	
-	@Autowired
-	
-	TagsJpaRepository repo;
-	
-	@Autowired
-	PostJpaRepository postRepo;
+	 TagService tagService;
 	
 	@GetMapping("/showAddForm")
 	public String showAddForm(Model theModel) {
 		Post post=new Post();
 		theModel.addAttribute("object", post);
-		return "addForm";
+		return "addPost";
 	}
-	
-	@PostMapping("/saveData")
-	public String saveData(@ModelAttribute("object") Post post,@RequestParam("tag") String s) {
+	@PostMapping("/savePost")
+	public String savePost(@ModelAttribute("object") Post post,@RequestParam("tag") String s) {
 		LocalDateTime datetime = LocalDateTime.now();  
 	    post.setCreatedAt(datetime);
-		String str[]=s.split(",");
-		List<Tag> list=new ArrayList<>();
-		for(int i=0;i<str.length;i++) {
+		String tags[]=s.split(",");
+		List<Tag> tagList=new ArrayList<>();
+		for(int i=0;i<tags.length;i++) {
 			Tag tempTag=new Tag();
-			tempTag=repo.findByName(str[i]);
+			tempTag=tagService.findTagByName(tags[i]);
 			if(tempTag==null) {
 				Tag newTag=new Tag();
-				newTag.setName(str[i]);
-				data.saveTag(newTag);
-				list.add(newTag);
+				newTag.setName(tags[i]);
+				tagService.saveTag(newTag);
+				tagList.add(newTag);
 			}else {
-				list.add(tempTag);
+				tagList.add(tempTag);
 			}
 		} 
-		post.setTags(list);	
-		service.savePost(post);
+		post.setTags(tagList);	
+		postService.savePost(post);
 		return "redirect:/getDataPagination";
 	}
-	
-//	@GetMapping("/sortPost/{pageNumber}")
-//	public String sortPost(@PathVariable("pageNumber") int pageNumber,@RequestParam("object") int val, Model theModel ) {
-//		if(val==1) {
-//			Page<Post>post=service.sortPostDES(pageNumber,4);
-//			theModel.addAttribute("post",post);
-//			theModel.addAttribute("currentPage", pageNumber);
-//			theModel.addAttribute("totalPages", post.getTotalPages());
-//			theModel.addAttribute("data",service.getAllPost());
-//			return "getData";
-//		}
-//		else {
-//			Page<Post>post=service.getAllPost(pageNumber,4);
-//			theModel.addAttribute("post",post);
-//			theModel.addAttribute("currentPage", pageNumber);
-//			theModel.addAttribute("totalPages", post.getTotalPages());
-//			theModel.addAttribute("data",service.getAllPost());
-//			return "getData";
-//		}
-//	}
-	
-	//user calling this//1 is old
+	//1 is old
 	@GetMapping("/getDataPagination")
 	public String getData (@RequestParam(value="pageNumber",defaultValue = "1", required = false)int pageNumber,
 			@RequestParam(value="object",defaultValue = "0",required = false)int val,
 			@RequestParam(value="search", defaultValue = "empty",required = false)String search,Model theModel){
 			if(search.equals("empty")&&val==2) {//new
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
-					Page<Post>tempPost = postRepo.sortTimeASC(pageable);
+					Page<Post>tempPost = postService.sortTimeASC(pageable);
 					List<Post>post=tempPost.getContent();
 					theModel.addAttribute("post",post);
 					theModel.addAttribute("currentPage", pageNumber);
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 2);
 					theModel.addAttribute("searchVal","empty");
-					return "getData";
+					return "home";
 			}
 			else if(search.equals("empty")&&val==1){  //old
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
-					Page<Post>tempPost = postRepo.sortTimeDESC(pageable);
+					Page<Post>tempPost = postService.sortTimeDESC(pageable);
 					List<Post>post=tempPost.getContent();
 					theModel.addAttribute("post",post);
 					theModel.addAttribute("currentPage", pageNumber);
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 1);
 					theModel.addAttribute("searchVal","empty");
-					return "getData";
+					return "home";
 			}
 			//new
 			else if(!search.equals("empty")&&val==2) {
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postRepo.searchASC(pageable,search);
+				Page<Post>tempPost = postService.searchASC(pageable,search);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",5);
 				theModel.addAttribute("searchVal",search);
-				return "getData";
+				return "home";
 			}
 			//old
 			else if(!search.equals("empty")&&val==1) {
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postRepo.search(pageable,search);
+				Page<Post>tempPost = postService.search(pageable,search);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",4);
 				theModel.addAttribute("searchVal",search);
-				return "getData";
+				return "home";
 			}
-			
 			else if(!search.equals("empty")) {
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postRepo.search(pageable,search);
+				Page<Post>tempPost = postService.search(pageable,search);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",3);
 				theModel.addAttribute("searchVal",search);
-				return "getData";
+				return "home";
 			}
-			
 			else {
-				Page<Post>post=service.getAllPost(pageNumber,4);
+				Page<Post>post=postService.getAllPost(pageNumber,4);
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", post.getTotalPages());
 				theModel.addAttribute("totalItems",post.getTotalElements());
 				theModel.addAttribute("value", 0);
 				theModel.addAttribute("searchVal","empty");
-				return "getData";
+				return "home";
 			}
 		}
 	
-//	@GetMapping("/getData")
-//	public String getData(Model theModel) {
-//		theModel.addAttribute("data",service.getAllPost());
-//		return "getData";
-//	}
-	
-	
-	@PostMapping("/readData")
-	public String readDataById(Model theModel,int id) {
-		theModel.addAttribute("BlogPost",service.getPostById(id));
-		return "readData";
+	@PostMapping("/readPost")
+	public String readPost(Model theModel,int id) {
+		theModel.addAttribute("BlogPost",postService.getPostById(id));
+		return "readPost";
 	}
 	
-	@GetMapping("/updateData{id}")
-	public String updateData(@RequestParam("id") int theId,Model theModel) {
-		
-		Post post=service.getPostById(theId);
+	@GetMapping("/updatePost{id}")
+	public String updatePost(@RequestParam("id") int theId,Model theModel) {
+		Post post=postService.getPostById(theId);
 		List<Tag> tag=post.getTags();
-		System.out.println(tag.size());
-		String str="";
-		for(int i=0;i<tag.size();i++)str=str+tag.get(i).getName()+",";
+		String inputTags="";
+		for(int i=0;i<tag.size();i++)inputTags=inputTags+tag.get(i).getName()+",";
 		theModel.addAttribute("object",post);
-		theModel.addAttribute("tag",str);
-		
-		return "addForm";
+		theModel.addAttribute("tag",inputTags);
+		return "addPost";
 	}
-//	@PostMapping("/search")
-//	public String search(@RequestParam("search") String searchInput,Model theModel) {
-//		List<Post>postData=postRepo.search(searchInput);
-//		theModel.addAttribute("data", postData);
-//		return "getData";
-//	}
 	
-	@GetMapping("/delete")
-	public String deleteData(@RequestParam("id")int theId,Model theModel) {
-		service.deletePostById(theId);
+	@GetMapping("/deletePost")
+	public String deletePost(@RequestParam("id")int theId,Model theModel) {
+		postService.deletePostById(theId);
 		return "redirect:/getDataPagination";
 	}
 }

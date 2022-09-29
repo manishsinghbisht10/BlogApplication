@@ -15,22 +15,16 @@ public class TagServiceImp implements TagService{
 	
 	@Override
 	public List<Tag> getAllTags() {
-		
-		return null;
-	}
-
-	@Override
-	public void deleteTagById(int Id) {
-		return ;
+		return service.findAll();
 	}
 
 	@Override
 	public void saveTag(Tag entity) {
 		service.save(entity);
 	}
-
+	
 	@Override
-	public Tag getPostById(int id) {
-		return null;
+	public Tag findTagByName(String tagName) {
+		return service.findByName(tagName);
 	}
 }

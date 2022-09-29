@@ -9,7 +9,6 @@ import spring.Zblogapplication.springbootEntity.Post;
 
 @Repository
 public interface PostJpaRepository extends JpaRepository<Post, Integer>{
-	//old
 	@Query("select distinct p from Post p join p.tags t where t.name like %:keyword% or p.name like %:keyword% or p.userBlog like %:keyword% order by p.id asc") 
 	public Page<Post> search(Pageable pagable,@Param("keyword") String keyword);
 	

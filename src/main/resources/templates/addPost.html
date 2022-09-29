@@ -8,7 +8,7 @@
   </head>
   <body>
   <h1>Welcome to BlogWriter</h1>
-	<form style="line-height:2;" action="#" th:action="@{/saveData}" th:object="${object}"  method="post">
+	<form style="line-height:2;" action="#" th:action="@{/savePost}" th:object="${object}"  method="post">
 		 <input type="hidden" th:field="*{id}">
 		 <input type="text" th:field="*{name}" placeholder="Name"><br> 
 	     <input type="text" th:field="*{title}" placeholder="Title Of Blog"><br>   
