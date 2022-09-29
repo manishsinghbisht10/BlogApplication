@@ -20,6 +20,6 @@ public interface PostService {
 	
 	public Page<Post> sortPostASC(int pageNumber,int pageSize) ;
 
-	public Page<Post> sortPostDESC(int pageNumber, int i);
+	public Page<Post> sortPostDESC(int pageNumber, int pageSize);
    
 }

@@ -9,7 +9,7 @@
   <a style="display:inline-block;"th:href="@{/showAddForm}"><h2><strong>Add Post</strong></h2></a>
   
   <!-- search -->
-  <form  style="display:inline-block; margin-left:900px; "  action="/search"  method="get">
+  <form  style="display:inline-block; margin-left:900px; "  action="/getDataPagination"  method="get">
   	<input placeholder="search" name="search" type="text"></input>
   	<button  type="submit">Search</button>
   </form>
@@ -17,11 +17,11 @@
   <!-- sorting -->
   <form  style="display:inline-block; margin-left:900px; "  action="/getDataPagination"  method="get">
   	<select id="object" name="object">
-  	  <option  name="Sort" value="1">Sort</option>
+  	  <option  name="Sort" value="0">Sort</option>
 	  <option value="1" name="val">Old </option>
 	  <option value="2" name="val">New </option>
 	</select>
-  	<button  type="submit">Sort</button>
+  	<button  name="search" th:value="${searchVal}" type="submit">Sort</button>
   </form>
   		
   		<!-- Print post -->
@@ -44,8 +44,23 @@
 	  </ul>
 	  
 	   <ul th:if=" ${value==1}" class="pagination">
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2})}"  class="page-link" >Next</a></li>
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1})}"  class="page-link" >Previous</a></li>
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1})}"  class="page-link" >Next</a></li>
+	  </ul>
+	  
+	   <ul th:if=" ${value==3}" class="pagination"><!-- searching -->
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	  </ul>
+	  
+	   <ul th:if=" ${value==4}" class="pagination"><!-- old -->
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	  </ul>
+	  
+	   <ul th:if=" ${value==5}" class="pagination"><!-- new -->
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if=" ${value==0}" class="pagination">

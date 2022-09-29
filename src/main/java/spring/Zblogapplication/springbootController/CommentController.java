@@ -24,14 +24,13 @@ public class CommentController {
 	PostService postService;
 	
 	@PostMapping("/saveComment/{id}")
-	public String save(@ModelAttribute Comments obj ,@PathVariable("id") int theId) {
-		//System.out.println("hello");
+	public String save(@ModelAttribute Comments comment ,@PathVariable("id") int theId) {
 		LocalDateTime datetime = LocalDateTime.now();  
-	    obj.setCreated_at(datetime);
+	    comment.setCreated_at(datetime);
 		Post post=new Post();
 		post=postService.getPostById(theId);
-		obj.setPostId(post);
-		commentService.saveComment(obj);
+		comment.setPostId(post);
+		commentService.saveComment(comment);
 		return "sucess";
 	}
 	

@@ -29,10 +29,10 @@ public class Post {
 	private String userBlog;
 	private String	title;
 	private String excerpt;
-	private String published_at;
-	private boolean is_published;
-	private LocalDateTime created_at;
-	private LocalDateTime updated_at;
+	private String publishedAt;
+	private boolean isPublished;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="post_tags",
@@ -84,29 +84,29 @@ public class Post {
 	public void setExcerpt(String excerpt) {
 		this.excerpt = excerpt;
 	}
-	public String getPublished_at() {
-		return published_at;
+	public String getPublishedAt() {
+		return publishedAt;
 	}
-	public void setPublished_at(String published_at) {
-		this.published_at = published_at;
+	public void setPublishedAt(String publishedAt) {
+		this.publishedAt = publishedAt;
 	}
-	public boolean isIs_published() {
-		return is_published;
+	public boolean isPublished() {
+		return isPublished;
 	}
-	public void setIs_published(boolean is_published) {
-		this.is_published = is_published;
+	public void setPublished(boolean isPublished) {
+		this.isPublished = isPublished;
 	}
-	public LocalDateTime getCreated_at() {
-		return created_at;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
 	}
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 	
 }
