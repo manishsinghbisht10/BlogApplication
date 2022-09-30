@@ -1,7 +1,10 @@
 package spring.Zblogapplication.springbootController;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -60,7 +63,9 @@ public class PostController {
 	@GetMapping("/getDataPagination")
 	public String getData (@RequestParam(value="pageNumber",defaultValue = "1", required = false)int pageNumber,
 			@RequestParam(value="object",defaultValue = "0",required = false)int val,
-			@RequestParam(value="search", defaultValue = "empty",required = false)String search,Model theModel){
+			@RequestParam(value="search", defaultValue = "empty",required = false)String search,
+			@RequestParam(value="filter",defaultValue="{}",required=false)String[] tags,
+			Model theModel){
 			if(search.equals("empty")&&val==2) {//new
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
 					Page<Post>tempPost = postService.sortTimeASC(pageable);
@@ -70,6 +75,7 @@ public class PostController {
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 2);
 					theModel.addAttribute("searchVal","empty");
+					theModel.addAttribute("tags", tagService.getAllTags());
 					return "home";
 			}
 			else if(search.equals("empty")&&val==1){  //old
@@ -81,6 +87,7 @@ public class PostController {
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 1);
 					theModel.addAttribute("searchVal","empty");
+					theModel.addAttribute("tags", tagService.getAllTags());
 					return "home";
 			}
 			//new
@@ -93,6 +100,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",5);
 				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
 			//old
@@ -105,6 +113,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",4);
 				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
 			else if(!search.equals("empty")) {
@@ -116,6 +125,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",3);
 				theModel.addAttribute("searchVal",search);
+				 theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
 			else {
@@ -126,6 +136,7 @@ public class PostController {
 				theModel.addAttribute("totalItems",post.getTotalElements());
 				theModel.addAttribute("value", 0);
 				theModel.addAttribute("searchVal","empty");
+				theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
 		}
@@ -152,5 +163,21 @@ public class PostController {
 		postService.deletePostById(theId);
 		return "redirect:/getDataPagination";
 	}
+	
+	@GetMapping("/getPostByTags")
+    public String gettingListOfTags(@RequestParam("tag") String[] tags, Model theModel) {
+        Set<Post> posts = new HashSet<Post>();
+        for (String tagString : tags) {
+            List<Post>post=postService.findAllByTagsName(tagString);
+            for(int i=0;i<post.size();i++) {
+            	posts.add(post.get(i));
+            }
+        }
+        System.out.println(posts.size());
+        System.out.println(posts.size());
+        theModel.addAttribute("tags", tagService.getAllTags());
+        theModel.addAttribute("post", posts);
+        return "home";
+    }
 }
 

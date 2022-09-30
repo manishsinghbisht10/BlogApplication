@@ -14,6 +14,20 @@
   	<button  type="submit">Search</button>
   </form>
   
+  <!-- tags -->
+
+  <form action="/getPostByTags" method="get">
+      <div class="" th:each="tag : ${tags}">
+          <input type="checkbox" id="tages" name="tag" th:value="${tag.name}">
+          <label for="tages" th:text="${tag.name}"></label>
+          <br>
+      </div>
+      <button type="submit">Submit</button>
+  </form>
+    
+  
+  
+  
   <!-- sorting -->
   <form  style="display:inline-block; margin-left:900px; "  action="/getDataPagination"  method="get">
   	<select id="object" name="object">
@@ -23,6 +37,8 @@
 	</select>
   	<button  name="search" th:value="${searchVal}" type="submit">Sort</button>
   </form>
+  
+  
   		
   		<!-- Print post -->
     <div>

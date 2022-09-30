@@ -1,4 +1,6 @@
 package spring.Zblogapplication.springbootRepository;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +23,6 @@ public interface PostJpaRepository extends JpaRepository<Post, Integer>{
 	
 	@Query("select p from Post p order by p.createdAt desc")
 	public Page<Post> sortTimeASC(Pageable pageable);//new
+	
+	public List<Post> findAllByTagsName(String tag);
 }

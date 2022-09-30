@@ -44,7 +44,7 @@
 	     
 	     <!-- Comment form -->
 	     <h2>Write new Comment</h2>
-		<form action="#" th:action="@{/saveComment/{id} (id=${BlogPost.id})}"  method="post">
+		<form action="#" th:action="@{/saveComment/ {id} (id=${BlogPost.id})}"  method="post">
 			     <input name="name" type="text" placeholder="User Name"><br> 
 			     <input name="email"type="text" placeholder="User Email"><br>
 			     <textarea id="comment"name="comment" >Comment here...</textarea><br>

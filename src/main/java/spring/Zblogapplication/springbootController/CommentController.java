@@ -42,7 +42,7 @@ public class CommentController {
 		com.setEmail(comment.getEmail());
 		com.setComment(comment.getComment());
 		commentService.saveComment(com);
-		return "redirect:/readPost"+"id";
+		return "redirect:/getDataPagination";
 	}
 	
 	@GetMapping("/update")//comment
@@ -54,6 +54,6 @@ public class CommentController {
 	@GetMapping("/deleteComment")
 	public String deleteComment(@RequestParam("id")int theId,Model theModel) {
 		commentService.deleteById(theId);
-		return "sucess";
+		return "redirect:/getDataPagination";
 	}
 }

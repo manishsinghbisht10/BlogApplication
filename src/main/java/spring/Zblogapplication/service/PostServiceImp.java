@@ -62,6 +62,11 @@ public class PostServiceImp implements PostService {
 		return service.sortTimeASC(pageable);
 	}
 
+	@Override
+	public List<Post> findAllByTagsName(String tag) {
+		return service.findAllByTagsName(tag);
+	}
+
 	
 
 }

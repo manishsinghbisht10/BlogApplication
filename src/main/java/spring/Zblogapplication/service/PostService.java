@@ -27,5 +27,7 @@ public interface PostService {
 	public Page<Post> sortTimeDESC(Pageable pageable);
 	
 	public Page<Post> sortTimeASC(Pageable pageable);
+	
+	public List<Post> findAllByTagsName(String tag);
   
 }
