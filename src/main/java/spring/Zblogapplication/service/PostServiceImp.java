@@ -63,10 +63,29 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public List<Post> findAllByTagsName(String tag) {
-		return service.findAllByTagsName(tag);
+	public Page<Post> findAllByTagsName(Pageable pageable,String[] tag) {
+		return service.findAllByTagsName(pageable,tag);
 	}
 
-	
+	@Override
+	public Page<Post> filterAllPostBySearch(Pageable pageable, String[] tag, String search) {
+		return service.filterAllPostBySearch(pageable, tag, search);
+	}
 
+	@Override
+	public Page<Post> filterAllPostBySearchASC(Pageable pageable, String[] tag, String search) {
+		return service.filterAllPostBySearchASC(pageable, tag, search);
+	}
+
+	@Override
+	public Page<Post> filterAllPostBySortDESC(Pageable pageable, String[] tag) {
+		// TODO Auto-generated method stub
+		return service.filterAllPostBySortDESC(pageable, tag);
+	}
+
+	@Override
+	public Page<Post> filterAllPostBySortASC(Pageable pageable, String[] tag) {
+		// TODO Auto-generated method stub
+		 return service.filterAllPostBySortASC(pageable, tag);
+	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
+import net.bytebuddy.implementation.bytecode.constant.DefaultValue;
 import spring.Zblogapplication.service.TagService;
 import spring.Zblogapplication.service.PostService;
 import spring.Zblogapplication.springbootEntity.Tag;
@@ -63,22 +68,140 @@ public class PostController {
 	@GetMapping("/getDataPagination")
 	public String getData (@RequestParam(value="pageNumber",defaultValue = "1", required = false)int pageNumber,
 			@RequestParam(value="object",defaultValue = "0",required = false)int val,
-			@RequestParam(value="search", defaultValue = "empty",required = false)String search,
-			@RequestParam(value="filter",defaultValue="{}",required=false)String[] tags,
+			@RequestParam(value="search", defaultValue = "empty",required = false)String search,                                        
+			@RequestParam(value="tag",defaultValue="",required=false)String[] tags,
 			Model theModel){
-			if(search.equals("empty")&&val==2) {//new
+			
+			if((tags!=null&&tags.length>0)&&(!search.equals("empty"))&&(val==0||val==1)) {
+				for(int i=0;i<tags.length;i++)System.out.println(tags[i]);//filter and search in sort old
+				System.out.println("7");
+				System.out.println("7");
+				System.out.println("7");
+				System.out.println("7");
+				System.out.println("7");
+				System.out.println("7");
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterAllPostBySearch(pageable, tags, search);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 7);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("tags", tagService.getAllTags());
+				return "home";
+			}
+			
+			else if((tags!=null&&tags.length>0)&&(!search.equals("empty"))&&val==2) {//filter and search in sort new
+				System.out.println("8");
+				System.out.println("8");
+				System.out.println("8");
+				System.out.println("8");
+				System.out.println("8");
+				System.out.println("8");
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterAllPostBySearchASC(pageable, tags, search);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 8);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("tags", tagService.getAllTags());
+				return "home";
+			}
+			
+			else if((tags!=null&&tags.length>0)&&(search.equals("empty"))&&val==2) {//filter and sort new
+				for(int i=0;i<tags.length;i++)System.out.println(tags[i]);
+				System.out.println("9");
+				System.out.println("9");
+				System.out.println("9");
+				System.out.println("9");
+				System.out.println("9");
+				System.out.println("9");
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterAllPostBySortASC(pageable, tags);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 9);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("tags", tagService.getAllTags());
+				return "home";
+			}
+			
+			else if((tags!=null&&tags.length>0)&&(search.equals("empty"))&&val==1) {//filter and sort old
+				System.out.println("10");
+				System.out.println("10");
+				System.out.println("10");
+				System.out.println("10");
+				System.out.println("10");
+				System.out.println("10");
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterAllPostBySortDESC(pageable, tags);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 10);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("tags", tagService.getAllTags());
+				return "home";
+			}
+			
+			else if((tags!=null&&tags.length>0)&&(search.equals("empty"))&&val==0) {//filter and sort
+				for(int i=0;i<tags.length;i++)System.out.println(tags[i]);
+				System.out.println("6");
+				System.out.println("6");
+				System.out.println("6");
+				System.out.println("6");
+				System.out.println("6");
+				System.out.println("6");
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.findAllByTagsName(pageable, tags);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 6);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("tags", tagService.getAllTags());
+				return "home";
+			}
+			
+			else if(search.equals("empty")&&val==2) {//new sort
+				System.out.println("2");
+				System.out.println("2");
+				System.out.println("2");
+				System.out.println("2");
+				System.out.println("2");
+				System.out.println("2");
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
 					Page<Post>tempPost = postService.sortTimeASC(pageable);
 					List<Post>post=tempPost.getContent();
+					//tags=new String[0];
 					theModel.addAttribute("post",post);
 					theModel.addAttribute("currentPage", pageNumber);
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 2);
+					theModel.addAttribute("tag", null); 
 					theModel.addAttribute("searchVal","empty");
 					theModel.addAttribute("tags", tagService.getAllTags());
 					return "home";
 			}
 			else if(search.equals("empty")&&val==1){  //old
+				System.out.println("1");
+				System.out.println("1");
+				System.out.println("1");
+				System.out.println("1");
+				System.out.println("1");
+				System.out.println("1");
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
 					Page<Post>tempPost = postService.sortTimeDESC(pageable);
 					List<Post>post=tempPost.getContent();
@@ -86,12 +209,18 @@ public class PostController {
 					theModel.addAttribute("currentPage", pageNumber);
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 1);
+					theModel.addAttribute("tag", null); 
 					theModel.addAttribute("searchVal","empty");
 					theModel.addAttribute("tags", tagService.getAllTags());
 					return "home";
 			}
-			//new
-			else if(!search.equals("empty")&&val==2) {
+			else if((!search.equals("empty"))&&val==2) {//search and new sort
+				System.out.println("5");
+				System.out.println("5");
+				System.out.println("5");
+				System.out.println("5");
+				System.out.println("5");
+				System.out.println("5");
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.searchASC(pageable,search);
 				List<Post>post=tempPost.getContent();
@@ -99,12 +228,19 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",5);
+				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
 			//old
-			else if(!search.equals("empty")&&val==1) {
+			else if((!search.equals("empty"))&&val==1) {//search with old sort
+				System.out.println("4");
+				System.out.println("4");
+				System.out.println("4");
+				System.out.println("4");
+				System.out.println("4");
+				System.out.println("4");
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.search(pageable,search);
 				List<Post>post=tempPost.getContent();
@@ -112,11 +248,18 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",4);
+				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
-			else if(!search.equals("empty")) {
+			else if(!search.equals("empty")&&val==0) {//only searching
+				System.out.println("3");
+				System.out.println("3");
+				System.out.println("3");
+				System.out.println("3");
+				System.out.println("3");
+				System.out.println("3");
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.search(pageable,search);
 				List<Post>post=tempPost.getContent();
@@ -124,17 +267,25 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",3);
+				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
 				 theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
 			}
 			else {
+				System.out.println("0");
+				System.out.println("0");
+				System.out.println("0");
+				System.out.println("0");
+				System.out.println("0");
+				System.out.println("0");
 				Page<Post>post=postService.getAllPost(pageNumber,4);
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", post.getTotalPages());
 				theModel.addAttribute("totalItems",post.getTotalElements());
 				theModel.addAttribute("value", 0);
+				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal","empty");
 				theModel.addAttribute("tags", tagService.getAllTags());
 				return "home";
@@ -164,20 +315,19 @@ public class PostController {
 		return "redirect:/getDataPagination";
 	}
 	
-	@GetMapping("/getPostByTags")
-    public String gettingListOfTags(@RequestParam("tag") String[] tags, Model theModel) {
-        Set<Post> posts = new HashSet<Post>();
-        for (String tagString : tags) {
-            List<Post>post=postService.findAllByTagsName(tagString);
-            for(int i=0;i<post.size();i++) {
-            	posts.add(post.get(i));
-            }
-        }
-        System.out.println(posts.size());
-        System.out.println(posts.size());
-        theModel.addAttribute("tags", tagService.getAllTags());
-        theModel.addAttribute("post", posts);
-        return "home";
-    }
+//	@GetMapping("/getPostByTags")
+//    public String gettingListOfTags(@RequestParam("tag") String[] tags, Model theModel) {
+//        Set<Post> posts = new HashSet<Post>();
+//        for (String tagString : tags) {
+//            List<Post>post=postService.findAllByTagsName(tagString);
+//            for(int i=0;i<post.size();i++) {
+//            	posts.add(post.get(i));
+//            }
+//        }
+//        String arr[]=new String[0];
+//        theModel.addAttribute("tags", tagService.getAllTags());
+//        theModel.addAttribute("post", posts);
+//        return "home";
+//    }
 }
 

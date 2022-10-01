@@ -28,6 +28,14 @@ public interface PostService {
 	
 	public Page<Post> sortTimeASC(Pageable pageable);
 	
-	public List<Post> findAllByTagsName(String tag);
+	public Page<Post> findAllByTagsName(Pageable pageable,@Param("tag")String[] tag);
+	
+	public Page<Post> filterAllPostBySortDESC(Pageable pageable,@Param("tag")String[] tag);
+	
+	public Page<Post> filterAllPostBySortASC(Pageable pageable,@Param("tag")String[] tag);
+	
+	public Page<Post> filterAllPostBySearch(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search);
+	
+	public Page<Post> filterAllPostBySearchASC(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search);
   
 }
