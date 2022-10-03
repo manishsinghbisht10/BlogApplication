@@ -23,9 +23,9 @@
   <body>
 		<div>
 			<div th:each="obj: ${BlogPost}">
-				<div class="box" th:text="${obj.userBlog}"></div>
-				<h3><a th:href="@{/updatePost(id=${obj.id})}">Update</a></h3>
-				<h3><a th:href="@{/deletePost(id=${obj.id})}">Delete</a></h3>
+				<div class="box" th:text="${obj.userBlog}"></div>		
+			   	<h3 th:if="${obj.name.equals(userName)} OR ${admin=='ADMIN'}" style="display:inline-block; margin-top:0;"><a th:href="@{/updatePost(id=${obj.id})}">Update</a></h3>
+				<h3 th:if="${obj.name.equals(userName)} OR ${admin=='ADMIN'}" style="display:inline-block; margin-top:0;"><a th:href="@{/deletePost(id=${obj.id})}">Delete</a></h3>
 			</div>
 		</div>
 		
@@ -36,8 +36,8 @@
 				<h2 style="margin-bottom:0;" th:text="${obj.name}"></h2>
 				<p style="margin-top:0; color:grey;" th:text="${obj.email}">
 				<p th:text="${obj.comment}">
-				<h3 style="display:inline-block; margin-top:0;"><a th:href="@{/update(id=${obj.id})}">Update</a></h3>
-				<h3 style="display:inline-block; margin-top:0;"><a th:href="@{/deleteComment(id=${obj.id})}">Delete</a></h3>
+				<h3 th:if="${BlogPost.name.equals(userName)} OR ${admin=='ADMIN'}" style="display:inline-block; margin-top:0;"><a th:href="@{/update(id=${obj.id})}">Update</a></h3>
+				<h3 th:if="${BlogPost.name.equals(userName)} OR ${admin=='ADMIN'}" style="display:inline-block; margin-top:0;"><a th:href="@{/deleteComment(id=${obj.id})}">Delete</a></h3>
 			</div>
 		</div>
 	     <br>

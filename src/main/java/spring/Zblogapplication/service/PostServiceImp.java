@@ -1,5 +1,8 @@
 package spring.Zblogapplication.service;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,13 +17,6 @@ public class PostServiceImp implements PostService {
 
 	@Autowired
 	PostJpaRepository service;
-	
-	@Override
-	public Page<Post> getAllPost(int pageNumber,int pageSize) {
-		PageRequest p=PageRequest.of((pageNumber-1),pageSize);
-		Page<Post> pagePost=this.service.findAll(p);
-		return pagePost;
-	}
 
 	@Override
 	public Post getPostById(int id) {
@@ -88,4 +84,22 @@ public class PostServiceImp implements PostService {
 		// TODO Auto-generated method stub
 		 return service.filterAllPostBySortASC(pageable, tag);
 	}
+
+	@Override
+	public List<Post> findPostByName(String name) {
+		return service.findPostByName(name);
+	}
+
+	@Override
+	public Page<Post> getAllPost(Pageable pageable) {
+		return service.getAllPost(pageable);
+	}
+
+	@Override
+	public Set<String> getAuthor() {
+		List<Post>post= service.getAuthor();
+		Set<String>nameSet=new HashSet<>();
+		for(int i=0;i<post.size();i++)nameSet.add(post.get(i).getName());
+		return nameSet;
+	}	
 }

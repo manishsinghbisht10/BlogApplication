@@ -6,17 +6,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   </head>
   <body>
-  <a style="display:inline-block;"th:href="@{/showAddForm}"><h2><strong>Add Post</strong></h2></a>
+  <a style="display:inline-block; margin-right:2rem;"th:href="@{/showAddForm}"><h2><strong>Add Post</strong></h2></a>
+  <a style="display:inline-block;"th:href="@{/showDraft}"><h2><strong>Draft</strong></h2></a>
+    <a style="display:inline-block; margin-left:60%;"th:href="@{/logout-sucess}"><h2><strong>Log Out</strong></h2></a>
+  <a style="display:inline-block; margin-left:2%; "th:href="@{/login}"><h2><strong>Log In</strong></h2></a>
   
   <!-- search -->
-  <form  style="display:inline-block; margin-left:900px; "  action="/getDataPagination"  method="get">
+  <form  style="display:inline-block; margin-left:970px; "  action="/getDataPagination"  method="get">
   	<input placeholder="search" name="search" type="text"></input>
   	<input  type="hidden" name="object" th:value="${2}"/>
   	<button name="tag" th:value="${{tag}}" type="submit">Search</button>
   </form>
   
-  <!--filters and tags-->
-  <form action="/getDataPagination" method="get">
+  <!--filters BY author name-->
+  <form style="display:inline-block;"action="/getDataPagination" method="get">
+      <div class="" th:each="obj : ${author}">
+          <input type="checkbox" id="tages" name="tag" th:value="${obj}">
+          <label for="tages" th:text="${obj}"></label>
+          <br>
+      </div>
+      <button type="submit">Submit</button>
+  </form>
+  
+    <!--filters and tags-->
+  <form style="display:inline-block;" action="/getDataPagination" method="get">
       <div class="" th:each="obj : ${tags}">
           <input type="checkbox" id="tages" name="tag" th:value="${obj.name}">
           <label for="tages" th:text="${obj.name}"></label>
@@ -24,6 +37,7 @@
       </div>
       <button type="submit">Submit</button>
   </form>
+  
   
   <!-- sorting -->
   <form  style="display:inline-block; margin-left:900px; "  action="/getDataPagination"  method="get">

@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 @Entity
@@ -22,9 +23,9 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
+	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy = "postId")
 	private List<Comments> comments=new ArrayList<>();
-	
 	private String name;
 	private String userBlog;
 	private String	title;
@@ -41,6 +42,16 @@ public class Post {
 		)
 	private List<Tag>tags=new ArrayList<>();
 	
+	
+	@ManyToOne
+	private User userId;
+	
+	public User getUserId() {
+		return userId;
+	}
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -90,10 +101,11 @@ public class Post {
 	public void setPublishedAt(String publishedAt) {
 		this.publishedAt = publishedAt;
 	}
-	public boolean isPublished() {
+	
+	public boolean getIsPublished() {
 		return isPublished;
 	}
-	public void setPublished(boolean isPublished) {
+	public void setIsPublished(boolean isPublished) {
 		this.isPublished = isPublished;
 	}
 	public LocalDateTime getCreatedAt() {

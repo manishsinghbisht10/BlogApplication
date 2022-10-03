@@ -10,11 +10,11 @@
   <h1>Welcome to BlogWriter</h1>
 	<form style="line-height:2;" action="#" th:action="@{/savePost}" th:object="${object}"  method="post">
 		 <input type="hidden" th:field="*{id}">
-		 <input type="text" th:field="*{name}" placeholder="Name"><br> 
-	     <input type="text" th:field="*{title}" placeholder="Title Of Blog"><br>   
+	     <input type="text" th:field="*{title}" placeholder="Title Of Blog"><br> 
+	     <div  th:if="${role=='ADMIN'}"><input type="text" th:field="*{name}" placeholder="Author Name"><br></div>     
 	     <input type="text" th:value="${tag}" placeholder="Write tags" id="tag" name="tag"><br>	     	   
 	     <input type="text" th:field="*{publishedAt}" placeholder="Published At"><br>
-	 	 <!--  <input type="checkbox" th:field="*{isPublished}" placeholder="Name"><br> --> 
+	      Want to publish?<input type="checkbox" th:field="*{isPublished}" id="" name="isPublished" ><br>
 	     <textarea id="text" th:field="*{userBlog}" >Write here...</textarea><br>
 	     
 	     <button style="margin-left:2rem;"type="submit" name="button">Submit</button>

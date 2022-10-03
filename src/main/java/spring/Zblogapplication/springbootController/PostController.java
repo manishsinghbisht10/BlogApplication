@@ -5,11 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,9 +25,11 @@ import net.bytebuddy.implementation.bytecode.constant.DefaultValue;
 import spring.Zblogapplication.service.TagService;
 import spring.Zblogapplication.service.PostService;
 import spring.Zblogapplication.springbootEntity.Tag;
+import spring.Zblogapplication.springbootEntity.User;
 import spring.Zblogapplication.springbootEntity.Post;
 import spring.Zblogapplication.springbootRepository.PostJpaRepository;
 import spring.Zblogapplication.springbootRepository.TagsJpaRepository;
+import spring.Zblogapplication.springbootRepository.UserJpaRepository;
 
 @Controller
 public class PostController {
@@ -36,14 +40,58 @@ public class PostController {
 	@Autowired
 	 TagService tagService;
 	
+	@Autowired
+	 UserJpaRepository userService;
+	
 	@GetMapping("/showAddForm")
 	public String showAddForm(Model theModel) {
 		Post post=new Post();
 		theModel.addAttribute("object", post);
+		String uName = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println("7");
+		if(!uName.equals("anonymousUser")) {
+			User userName=userService.findByUsername(uName);
+			theModel.addAttribute("role", userName.getRoles());
+			System.out.println(userName.getRoles());
+			System.out.println(userName.getRoles());
+			System.out.println(userName.getRoles());
+		}
 		return "addPost";
 	}
+	
+	@GetMapping("/showDraft")
+	public String showDraft(Model theModel) {
+		String uName = SecurityContextHolder.getContext().getAuthentication().getName();
+		if(!uName.equals("anonymousUser")) {
+			User userName=userService.findByUsername(uName);
+			String name=userName.getName();
+			List<Post>post=postService.findPostByName(name);
+			theModel.addAttribute("post", post);
+			return "draft";
+		}else {
+			return "noDraft";
+		}
+	}
+	
+	@PostMapping("/saveDraft")
+	public String saveDraft(@RequestParam("id")int id) {
+		System.out.println("hello");
+		System.out.println("hello");
+		System.out.println("hello");
+		System.out.println("hello");
+		System.out.println("hello");
+		Post post=postService.getPostById(id);
+		post.setIsPublished(true);
+		postService.savePost(post);
+		return "redirect:/getDataPagination";
+	}
+	
+	
 	@PostMapping("/savePost")
 	public String savePost(@ModelAttribute("object") Post post,@RequestParam("tag") String s) {
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		User user=userService.findByUsername(name);
+		String str=user.getName();
 		LocalDateTime datetime = LocalDateTime.now();  
 	    post.setCreatedAt(datetime);
 		String tags[]=s.split(",");
@@ -61,10 +109,16 @@ public class PostController {
 			}
 		} 
 		post.setTags(tagList);	
+		post.setName(str);
 		postService.savePost(post);
 		return "redirect:/getDataPagination";
 	}
-	//1 is old
+	
+	@GetMapping("/")
+	public String homePage() {
+		return "redirect:/getDataPagination";
+	}
+	
 	@GetMapping("/getDataPagination")
 	public String getData (@RequestParam(value="pageNumber",defaultValue = "1", required = false)int pageNumber,
 			@RequestParam(value="object",defaultValue = "0",required = false)int val,
@@ -90,6 +144,7 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
@@ -110,6 +165,7 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
@@ -131,6 +187,7 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
@@ -151,6 +208,7 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
@@ -172,6 +230,7 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
@@ -193,15 +252,16 @@ public class PostController {
 					theModel.addAttribute("tag", null); 
 					theModel.addAttribute("searchVal","empty");
 					theModel.addAttribute("tags", tagService.getAllTags());
+					theModel.addAttribute("author", postService.getAuthor());
 					return "home";
 			}
 			else if(search.equals("empty")&&val==1){  //old
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
-				System.out.println("1");
+					System.out.println("1");
+					System.out.println("1");
+					System.out.println("1");
+					System.out.println("1");
+					System.out.println("1");
+					System.out.println("1");
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
 					Page<Post>tempPost = postService.sortTimeDESC(pageable);
 					List<Post>post=tempPost.getContent();
@@ -212,6 +272,7 @@ public class PostController {
 					theModel.addAttribute("tag", null); 
 					theModel.addAttribute("searchVal","empty");
 					theModel.addAttribute("tags", tagService.getAllTags());
+					theModel.addAttribute("author", postService.getAuthor());
 					return "home";
 			}
 			else if((!search.equals("empty"))&&val==2) {//search and new sort
@@ -231,6 +292,7 @@ public class PostController {
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			//old
@@ -251,6 +313,7 @@ public class PostController {
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			else if(!search.equals("empty")&&val==0) {//only searching
@@ -270,6 +333,7 @@ public class PostController {
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
 				 theModel.addAttribute("tags", tagService.getAllTags());
+				 theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			else {
@@ -279,15 +343,19 @@ public class PostController {
 				System.out.println("0");
 				System.out.println("0");
 				System.out.println("0");
-				Page<Post>post=postService.getAllPost(pageNumber,4);
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.getAllPost(pageable);
+				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
-				theModel.addAttribute("totalPages", post.getTotalPages());
-				theModel.addAttribute("totalItems",post.getTotalElements());
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("totalItems",tempPost.getTotalElements());
 				theModel.addAttribute("value", 0);
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal","empty");
 				theModel.addAttribute("tags", tagService.getAllTags());
+				theModel.addAttribute("author", postService.getAuthor());
+				System.out.println( postService.getAuthor());
 				return "home";
 			}
 		}
@@ -295,12 +363,33 @@ public class PostController {
 	@PostMapping("/readPost")
 	public String readPost(Model theModel,int id) {
 		theModel.addAttribute("BlogPost",postService.getPostById(id));
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();	
+		System.out.println(name);
+		System.out.println(name);
+		System.out.println(name);
+		System.out.println(name);
+		System.out.println(name);
+		if(name=="anonymousUser") {
+			String userName="";
+			theModel.addAttribute("userName", userName);
+			theModel.addAttribute("admin", "");
+			
+		}else {
+			User user=userService.findByUsername(name);
+			String userName=user.getName();
+			String admin=user.getRoles();
+			theModel.addAttribute("userName", userName);
+			theModel.addAttribute("admin", admin);
+		}
+		System.out.println(postService.getPostById(id).getName());
 		return "readPost";
 	}
 	
 	@GetMapping("/updatePost{id}")
 	public String updatePost(@RequestParam("id") int theId,Model theModel) {
 		Post post=postService.getPostById(theId);
+		LocalDateTime datetime = LocalDateTime.now();  
+		post.setUpdatedAt(datetime);
 		List<Tag> tag=post.getTags();
 		String inputTags="";
 		for(int i=0;i<tag.size();i++)inputTags=inputTags+tag.get(i).getName()+",";

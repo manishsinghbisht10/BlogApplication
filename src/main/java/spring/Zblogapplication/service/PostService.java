@@ -1,6 +1,7 @@
 package spring.Zblogapplication.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,10 @@ import spring.Zblogapplication.springbootEntity.Post;
 public interface PostService {
 
 	public List<Post> getAllPost();
+	
+	public Set<String> getAuthor();
+	
+	public List<Post> findPostByName(String name);
 
     public Post getPostById(int id);
     
@@ -18,7 +23,7 @@ public interface PostService {
     
     public void savePost(Post blog);
 
-	public Page<Post> getAllPost(int pageNumber, int pageSize);
+	public Page<Post> getAllPost(Pageable pagable);
 	
 	public Page<Post> search(Pageable pagable,@Param("keyword") String keyword);
 	
