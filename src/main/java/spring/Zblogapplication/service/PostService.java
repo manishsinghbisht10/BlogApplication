@@ -45,4 +45,15 @@ public interface PostService {
 	
 	public Page<Post> filterAllPostBySearchASC(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
   
+	public Page<Post> filterAuthorAndTag(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+	
+	public Page<Post> filterSearchOnAuthorAndTag(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
+
+	public Page<Post> filterSortAuthorAndTagASC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+
+	public Page<Post> filterSortAuthorAndTagDESC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+
+	public Page<Post> filterSearchAndSortAuthorTag(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
+
+	
 }

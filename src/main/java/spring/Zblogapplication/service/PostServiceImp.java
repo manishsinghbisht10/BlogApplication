@@ -107,5 +107,30 @@ public class PostServiceImp implements PostService {
 	@Override
 	public List<Post> getAllDraft() {
 		return service.getAllDraft();
+	}
+
+	@Override
+	public Page<Post> filterAuthorAndTag(Pageable pageable, String[] tag, String[] author) {
+		return service.filterAuthorAndTag(pageable, tag, author);
+	}
+
+	@Override
+	public Page<Post> filterSearchOnAuthorAndTag(Pageable pageable, String[] tag, String search, String[] author) {
+		return service.filterSearchOnAuthorAndTag(pageable, tag, search, author);
+	}
+
+	@Override
+	public Page<Post> filterSortAuthorAndTagASC(Pageable pageable, String[] tag, String[] author) {
+		return service.filterSortAuthorAndTagASC(pageable, tag, author);
+	}
+
+	@Override
+	public Page<Post> filterSortAuthorAndTagDESC(Pageable pageable, String[] tag, String[] author) {
+		return service.filterSortAuthorAndTagDESC(pageable, tag, author);
+	}
+
+	@Override
+	public Page<Post> filterSearchAndSortAuthorTag(Pageable pageable, String[] tag, String search, String[] author) {
+		return service.filterSearchAndSortAuthorTag(pageable, tag, search, author);
 	}	
 }

@@ -32,7 +32,7 @@ public class CommentController {
 		comment.setPostId(post);
 		commentService.saveComment(comment);
 		theModel.addAttribute("BlogPost",postService.getPostById(theId));
-		return "readPost";
+		return "redirect:/getDataPagination";
 	}
 	
 	@PostMapping("/updateComment/{id}")

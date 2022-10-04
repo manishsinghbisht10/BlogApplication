@@ -20,6 +20,7 @@ public class User {
 	private String name;
 	private String username;
 	private String password;
+	private String email;
 	private boolean active=true;
 	private String roles;
 	
@@ -67,5 +68,11 @@ public class User {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

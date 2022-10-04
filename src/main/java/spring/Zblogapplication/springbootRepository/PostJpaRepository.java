@@ -51,5 +51,20 @@ public interface PostJpaRepository extends JpaRepository<Post, Integer>{
 	
 	@Query("select distinct p from Post p where p.isPublished is true")
 	public List<Post> getAuthor();
+	
 
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name IN :tag) and (p.name IN :author))")
+	public Page<Post> filterAuthorAndTag(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+	
+	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :author))) order by p.id desc")
+	public Page<Post> filterSearchOnAuthorAndTag(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
+	
+	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and (((t.name IN :tag) or (p.name IN :author)) and (p.name IN :tag)) order by p.id asc")
+	public Page<Post> filterSortAuthorAndTagASC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+	
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and (((t.name IN :tag) or (p.name IN :author)) and (p.name IN :tag)) order by p.id desc")
+	public Page<Post> filterSortAuthorAndTagDESC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+	
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :author))) order by p.id asc")
+	public Page<Post> filterSearchAndSortAuthorTag(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 }

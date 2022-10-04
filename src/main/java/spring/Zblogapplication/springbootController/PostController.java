@@ -51,9 +51,6 @@ public class PostController {
 		if(!uName.equals("anonymousUser")) {
 			User userName=userService.findByUsername(uName);
 			theModel.addAttribute("role", userName.getRoles());
-			System.out.println(userName.getRoles());
-			System.out.println(userName.getRoles());
-			System.out.println(userName.getRoles());
 		}
 		return "addPost";
 	}
@@ -90,8 +87,14 @@ public class PostController {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user=userService.findByUsername(name);
 		String str=user.getName();
-		LocalDateTime datetime = LocalDateTime.now();  
-	    post.setCreatedAt(datetime);
+		Post newPost=postService.getPostById(post.getId());
+		if(newPost==null) {
+			LocalDateTime datetime = LocalDateTime.now();  
+		    post.setCreatedAt(datetime);
+		}else {
+			LocalDateTime datetime = LocalDateTime.now();  
+		    post.setUpdatedAt(datetime);
+		}
 		String tags[]=s.split(",");
 		List<Tag> tagList=new ArrayList<>();
 		for(int i=0;i<tags.length;i++) {
@@ -124,8 +127,94 @@ public class PostController {
 			@RequestParam(value="tag",defaultValue="",required=false)String[] tags,
 			@RequestParam(value="author",defaultValue="",required=false)String[] author,
 			Model theModel){
+			String uName = SecurityContextHolder.getContext().getAuthentication().getName();
+			if(!uName.equals("anonymousUser")) {
+				User userName=userService.findByUsername(uName);
+				theModel.addAttribute("role", userName.getRoles());
+			}else theModel.addAttribute("role", "anonymousUser");
 			
-			if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter pe search
+			if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==0||val==1)) {//only filter
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterAuthorAndTag(pageable, tags, author);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 11);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
+				theModel.addAttribute("tags",tagService.getAllTagsUnique());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
+				return "home";
+			}
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter and search
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterSearchOnAuthorAndTag(pageable, tags, search, author);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 12);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
+				theModel.addAttribute("tags",tagService.getAllTagsUnique());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
+				return "home";
+			}
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==2)) {//filter sort new
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterSortAuthorAndTagASC(pageable, tags, author);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 13);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
+				theModel.addAttribute("tags",tagService.getAllTagsUnique());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
+				return "home";
+			}
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==0||val==1)) {//filter sort old
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterSortAuthorAndTagDESC(pageable, tags, author);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 14);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
+				theModel.addAttribute("tags",tagService.getAllTagsUnique());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
+				return "home";
+			}
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==2)) {//filter search sort new
+				Pageable pageable = PageRequest.of(pageNumber-1, 4);
+				Page<Post>tempPost = postService.filterSearchAndSortAuthorTag(pageable, tags, search, author);
+				List<Post>post=tempPost.getContent();
+				theModel.addAttribute("post",post);
+				theModel.addAttribute("currentPage", pageNumber);
+				theModel.addAttribute("totalPages", tempPost.getTotalPages());
+				theModel.addAttribute("value", 15);
+				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
+				theModel.addAttribute("tags",tagService.getAllTagsUnique());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
+				return "home";
+			}
+			// non And of tag and author
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter pe search
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterAllPostBySearch(pageable, tags, search,author);
 				List<Post>post=tempPost.getContent();
@@ -339,7 +428,7 @@ public class PostController {
 	public String updatePost(@RequestParam("id") int theId,Model theModel) {
 		Post post=postService.getPostById(theId);
 		LocalDateTime datetime = LocalDateTime.now();  
-		post.setUpdatedAt(datetime);
+	    post.setUpdatedAt(datetime);
 		List<Tag> tag=post.getTags();
 		String inputTags="";
 		for(int i=0;i<tag.size();i++)inputTags=inputTags+tag.get(i).getName()+",";
