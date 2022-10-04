@@ -8,6 +8,8 @@ import spring.Zblogapplication.springbootEntity.Tag;
 public interface TagService {
 
 	public List<Tag> getAllTags();
+	
+	public List<Tag> getAllTagsUnique();
       
 	public void saveTag(Tag com);
 	

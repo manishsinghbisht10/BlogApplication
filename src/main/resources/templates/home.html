@@ -14,27 +14,28 @@
   <!-- search -->
   <form  style="display:inline-block; margin-left:970px; "  action="/getDataPagination"  method="get">
   	<input placeholder="search" name="search" type="text"></input>
-  	<input  type="hidden" name="object" th:value="${2}"/>
+  	<input  type="hidden" name="object" th:value="${val}"/>
   	<button name="tag" th:value="${{tag}}" type="submit">Search</button>
   </form>
   
-  <!--filters BY author name-->
-  <form style="display:inline-block;"action="/getDataPagination" method="get">
-      <div class="" th:each="obj : ${author}">
-          <input type="checkbox" id="tages" name="tag" th:value="${obj}">
-          <label for="tages" th:text="${obj}"></label>
-          <br>
-      </div>
-      <button type="submit">Submit</button>
-  </form>
-  
-    <!--filters and tags-->
+  <!--filters and tags-->
   <form style="display:inline-block;" action="/getDataPagination" method="get">
+  <h2 style="text-decoration:underline;"><strong>Tags</strong></h2>
       <div class="" th:each="obj : ${tags}">
           <input type="checkbox" id="tages" name="tag" th:value="${obj.name}">
           <label for="tages" th:text="${obj.name}"></label>
           <br>
       </div>
+       <!--filters BY author -->
+      <h2 style="text-decoration:underline;"><strong>Author</strong></h2>
+      <div class="" th:each="obj : ${author}">
+          <input type="checkbox" id="tages" name="tag" th:value="${obj}">
+          <label for="tages" th:text="${obj}"></label>
+          <br>
+      </div>
+      <!-- end of author -->
+      <input  type="hidden" name="object" th:value="${val}"/>
+      <input  type="hidden" name="search" th:value="${searchVal}"/>
       <button type="submit">Submit</button>
   </form>
   

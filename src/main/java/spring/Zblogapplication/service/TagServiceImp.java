@@ -27,4 +27,9 @@ public class TagServiceImp implements TagService{
 	public Tag findTagByName(String tagName) {
 		return service.findByName(tagName);
 	}
+
+	@Override
+	public List<Tag> getAllTagsUnique() {
+		return service.getAllTagsUnique();
+	}
 }

@@ -101,5 +101,10 @@ public class PostServiceImp implements PostService {
 		Set<String>nameSet=new HashSet<>();
 		for(int i=0;i<post.size();i++)nameSet.add(post.get(i).getName());
 		return nameSet;
+	}
+
+	@Override
+	public List<Post> getAllDraft() {
+		return service.getAllDraft();
 	}	
 }
