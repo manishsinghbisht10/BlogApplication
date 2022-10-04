@@ -14,12 +14,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+public class SecurityConfiguration{
 
 	@Autowired
 	UserDetailsService userDetailsService;
@@ -32,8 +33,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		return provider;
 	}
 	
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		
 	http
@@ -49,5 +50,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		.clearAuthentication(true)
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout-sucess"))
 		.logoutSuccessUrl("/login").permitAll();
+		 return http.build();
 	}
 }

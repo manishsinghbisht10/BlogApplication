@@ -68,7 +68,7 @@ public class PostController {
 				theModel.addAttribute("post", post);
 			}
 			return "draft";
-		}else {
+		}else{
 			return "noDraft";
 		}
 	}
@@ -83,7 +83,7 @@ public class PostController {
 	
 	
 	@PostMapping("/savePost")
-	public String savePost(@ModelAttribute("object") Post post,@RequestParam("tag") String s) {
+	public String savePost(@ModelAttribute("object") Post post,@RequestParam("tag") String tagString) {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user=userService.findByUsername(name);
 		String str=user.getName();
@@ -95,7 +95,7 @@ public class PostController {
 			LocalDateTime datetime = LocalDateTime.now();  
 		    post.setUpdatedAt(datetime);
 		}
-		String tags[]=s.split(",");
+		String tags[]=tagString.split(",");
 		List<Tag> tagList=new ArrayList<>();
 		for(int i=0;i<tags.length;i++) {
 			Tag tempTag=new Tag();
@@ -141,13 +141,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 11);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter and search
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -157,13 +150,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 12);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==2)) {//filter sort new
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -173,13 +159,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 13);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==0||val==1)) {//filter sort old
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -189,13 +168,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 14);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==2)) {//filter search sort new
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -205,13 +177,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 15);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			// non And of tag and author
 			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter pe search
@@ -222,13 +187,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 7);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			
 			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&val==2) {//filter and search in sort new
@@ -239,13 +197,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 8);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			
 			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==2) {//filter and sort new
@@ -257,13 +208,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 9);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			
 			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==1) {//filter and sort old
@@ -274,13 +218,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 10);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			
 			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==0) {//filter and sort
@@ -292,13 +229,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 6);
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("tag", tags); 
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			
 			else if(search.equals("empty")&&val==2) {//new sort
@@ -309,13 +239,6 @@ public class PostController {
 					theModel.addAttribute("currentPage", pageNumber);
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 2);
-					theModel.addAttribute("tag", null); 
-					theModel.addAttribute("searchVal","empty");
-					theModel.addAttribute("author", author); 
-					theModel.addAttribute("object", val); 
-					theModel.addAttribute("tags", tagService.getAllTagsUnique());
-					theModel.addAttribute("allAuthor", postService.getAuthor());
-					return "home";
 			}
 			else if(search.equals("empty")&&val==1){  //old
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -325,13 +248,6 @@ public class PostController {
 					theModel.addAttribute("currentPage", pageNumber);
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 1);
-					theModel.addAttribute("tag", null); 
-					theModel.addAttribute("searchVal","empty");
-					theModel.addAttribute("author", author); 
-					theModel.addAttribute("object", val); 
-					theModel.addAttribute("tags", tagService.getAllTagsUnique());
-					theModel.addAttribute("allAuthor", postService.getAuthor());
-					return "home";
 			}
 			else if((!search.equals("empty"))&&val==2) {//search and new sort
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -341,13 +257,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",5);
-				theModel.addAttribute("tag", null); 
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			//old
 			else if((!search.equals("empty"))&&val==1) {//search with old sort
@@ -358,13 +267,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",4);
-				theModel.addAttribute("tag", null); 
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			else if(!search.equals("empty")&&val==0) {//only searching
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -374,13 +276,6 @@ public class PostController {
 				theModel.addAttribute("currentPage", pageNumber);
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",3);
-				theModel.addAttribute("tag", null); 
-				theModel.addAttribute("searchVal",search);
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				return "home";
 			}
 			else {
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
@@ -391,15 +286,14 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("totalItems",tempPost.getTotalElements());
 				theModel.addAttribute("value", 0);
-				theModel.addAttribute("tag", null); 
-				theModel.addAttribute("searchVal","empty");
-				theModel.addAttribute("author", author); 
-				theModel.addAttribute("object", val); 
-				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("allAuthor", postService.getAuthor());
-				System.out.println( postService.getAuthor());
-				return "home";
 			}
+			theModel.addAttribute("searchVal",search);
+			theModel.addAttribute("tag", tags); 
+			theModel.addAttribute("object", val); 
+			theModel.addAttribute("author", author); 
+			theModel.addAttribute("tags",tagService.getAllTagsUnique());
+			theModel.addAttribute("allAuthor", postService.getAuthor());
+			return "home";
 		}
 	
 	@PostMapping("/readPost")
@@ -407,7 +301,6 @@ public class PostController {
 		theModel.addAttribute("BlogPost",postService.getPostById(id));
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();	
 		if(name=="anonymousUser") {
-			//String userName="";
 			theModel.addAttribute("userName", name);
 			theModel.addAttribute("admin", "");
 			theModel.addAttribute("user", "");
