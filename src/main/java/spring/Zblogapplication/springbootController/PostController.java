@@ -138,7 +138,7 @@ public class PostController {
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tags",tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			
@@ -155,7 +155,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			
@@ -173,7 +173,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			
@@ -190,7 +190,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			
@@ -208,7 +208,7 @@ public class PostController {
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			
@@ -225,7 +225,7 @@ public class PostController {
 					theModel.addAttribute("author", author); 
 					theModel.addAttribute("object", val); 
 					theModel.addAttribute("tags", tagService.getAllTagsUnique());
-					theModel.addAttribute("author", postService.getAuthor());
+					theModel.addAttribute("allAuthor", postService.getAuthor());
 					return "home";
 			}
 			else if(search.equals("empty")&&val==1){  //old
@@ -241,7 +241,7 @@ public class PostController {
 					theModel.addAttribute("author", author); 
 					theModel.addAttribute("object", val); 
 					theModel.addAttribute("tags", tagService.getAllTagsUnique());
-					theModel.addAttribute("author", postService.getAuthor());
+					theModel.addAttribute("allAuthor", postService.getAuthor());
 					return "home";
 			}
 			else if((!search.equals("empty"))&&val==2) {//search and new sort
@@ -257,7 +257,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			//old
@@ -274,7 +274,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			else if(!search.equals("empty")&&val==0) {//only searching
@@ -290,7 +290,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				return "home";
 			}
 			else {
@@ -307,7 +307,7 @@ public class PostController {
 				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
-				theModel.addAttribute("author", postService.getAuthor());
+				theModel.addAttribute("allAuthor", postService.getAuthor());
 				System.out.println( postService.getAuthor());
 				return "home";
 			}

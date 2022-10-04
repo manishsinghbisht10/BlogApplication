@@ -31,7 +31,7 @@
  
        <!--filters BY author -->
       <h2 style="text-decoration:underline;"><strong>Author</strong></h2>
-      <div class="" th:each="obj : ${author}">
+      <div class="" th:each="obj : ${allAuthor}">
           <input type="checkbox" id="auth" name="author" th:value="${obj}">
           <label for="auth" th:text="${obj}"></label>
           <br>
@@ -51,7 +51,7 @@
 	  <option value="1" name="val">Old </option>
 	  <option value="2" name="val">New </option>
 	</select>	
-	 <input  type="hidden" name="tag" th:value="${{tag}}"/>
+	  <input  type="hidden" name="tag" th:value="${{tag}}"/>
 	  <input  type="hidden" name="author" th:value="${{author}}"/>
   	<button  name="search" th:value="${searchVal}" type="submit">Sort</button>
   </form>
