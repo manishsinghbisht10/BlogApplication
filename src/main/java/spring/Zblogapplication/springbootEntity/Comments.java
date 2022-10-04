@@ -19,7 +19,6 @@ public class Comments {
 	private int id;
 	@ManyToOne
 	private Post postId;
-	
 	private String name;
 	private String email;
 	private String comment;

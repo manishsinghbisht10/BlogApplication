@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import spring.Zblogapplication.springbootEntity.Post;
 import spring.Zblogapplication.springbootRepository.PostJpaRepository;
@@ -59,30 +60,30 @@ public class PostServiceImp implements PostService {
 	}
 
 	@Override
-	public Page<Post> findAllByTagsName(Pageable pageable,String[] tag) {
-		return service.findAllByTagsName(pageable,tag);
+	public Page<Post> findAllByTagsName(Pageable pageable,String[] tag,String[] author) {
+		return service.findAllByTagsName(pageable,tag,author);
 	}
 
 	@Override
-	public Page<Post> filterAllPostBySearch(Pageable pageable, String[] tag, String search) {
-		return service.filterAllPostBySearch(pageable, tag, search);
+	public Page<Post> filterAllPostBySearch(Pageable pageable, String[] tag, String search,String[]author) {
+		return service.filterAllPostBySearch(pageable, tag, search, author);
 	}
 
 	@Override
-	public Page<Post> filterAllPostBySearchASC(Pageable pageable, String[] tag, String search) {
-		return service.filterAllPostBySearchASC(pageable, tag, search);
+	public Page<Post> filterAllPostBySearchASC(Pageable pageable, String[] tag, String search,String[]author) {
+		return service.filterAllPostBySearchASC(pageable, tag, search,author);
 	}
 
 	@Override
-	public Page<Post> filterAllPostBySortDESC(Pageable pageable, String[] tag) {
+	public Page<Post> filterAllPostBySortDESC(Pageable pageable, String[] tag,String[]author) {
 		// TODO Auto-generated method stub
-		return service.filterAllPostBySortDESC(pageable, tag);
+		return service.filterAllPostBySortDESC(pageable, tag,author);
 	}
 
 	@Override
-	public Page<Post> filterAllPostBySortASC(Pageable pageable, String[] tag) {
+	public Page<Post> filterAllPostBySortASC(Pageable pageable, String[] tag,String[]author) {
 		// TODO Auto-generated method stub
-		 return service.filterAllPostBySortASC(pageable, tag);
+		 return service.filterAllPostBySortASC(pageable, tag,author);
 	}
 
 	@Override

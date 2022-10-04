@@ -29,22 +29,22 @@ public interface PostJpaRepository extends JpaRepository<Post, Integer>{
 	@Query("select p from Post p where p.isPublished is true order by p.createdAt desc")
 	public Page<Post> sortTimeASC(Pageable pageable);//new
 	
-	@Query("select p from Post p join p.tags t where p.isPublished is true and t.name IN :tag")//only filter
-	public Page<Post> findAllByTagsName(Pageable pageable,@Param("tag") String[] tag);
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name IN :tag) or (p.name IN :author))")//only filter
+	public Page<Post> findAllByTagsName(Pageable pageable,@Param("tag") String[] tag,@Param("author")String[] author);
 	
 	//filter search and sort old
-	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :tag))) order by p.id desc")
-	public Page<Post> filterAllPostBySearch(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search);
+	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) or (p.name IN :author))) order by p.id desc")
+	public Page<Post> filterAllPostBySearch(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 	
-	//filter seach and sort new
-	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :tag))) order by p.id asc")
-	public Page<Post> filterAllPostBySearchASC(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search);
+	//filter search and sort new
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) or (p.name IN :author))) order by p.id asc")
+	public Page<Post> filterAllPostBySearchASC(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 	
-	@Query("select p from Post p join p.tags t where p.isPublished is true and ((t.name IN :tag) or (p.name IN :tag)) order by p.id desc")//filter and sort old
-	public Page<Post> filterAllPostBySortDESC(Pageable pageable,@Param("tag")String[] tag);
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and (((t.name IN :tag) or (p.name IN :author)) or (p.name IN :tag)) order by p.id desc")//filter and sort old
+	public Page<Post> filterAllPostBySortDESC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
 	
-	@Query("select p from Post p join p.tags t  where p.isPublished is true and ((t.name IN :tag) or (p.name IN :tag)) order by p.id asc")//filter and sort new
-	public Page<Post> filterAllPostBySortASC(Pageable pageable,@Param("tag")String[] tag);
+	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and (((t.name IN :tag) or (p.name IN :author)) or (p.name IN :tag)) order by p.id asc")//filter and sort new
+	public Page<Post> filterAllPostBySortASC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
 	
 	@Query("select p from Post p where p.isPublished is true order by p.createdAt asc")
 	public Page<Post> getAllPost(Pageable pageable);

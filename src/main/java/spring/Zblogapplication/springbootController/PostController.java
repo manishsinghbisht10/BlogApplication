@@ -122,11 +122,12 @@ public class PostController {
 			@RequestParam(value="object",defaultValue = "0",required = false)int val,
 			@RequestParam(value="search", defaultValue = "empty",required = false)String search,                                        
 			@RequestParam(value="tag",defaultValue="",required=false)String[] tags,
+			@RequestParam(value="author",defaultValue="",required=false)String[] author,
 			Model theModel){
 			
-			if((tags!=null&&tags.length>0)&&(!search.equals("empty"))&&(val==0||val==1)) {
+			if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter pe search
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postService.filterAllPostBySearch(pageable, tags, search);
+				Page<Post>tempPost = postService.filterAllPostBySearch(pageable, tags, search,author);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
@@ -135,14 +136,15 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tags",tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
-			else if((tags!=null&&tags.length>0)&&(!search.equals("empty"))&&val==2) {//filter and search in sort new
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&val==2) {//filter and search in sort new
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postService.filterAllPostBySearchASC(pageable, tags, search);
+				Page<Post>tempPost = postService.filterAllPostBySearchASC(pageable, tags, search,author);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
@@ -150,16 +152,17 @@ public class PostController {
 				theModel.addAttribute("value", 8);
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
-			else if((tags!=null&&tags.length>0)&&(search.equals("empty"))&&val==2) {//filter and sort new
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==2) {//filter and sort new
 				for(int i=0;i<tags.length;i++)System.out.println(tags[i]);
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postService.filterAllPostBySortASC(pageable, tags);
+				Page<Post>tempPost = postService.filterAllPostBySortASC(pageable, tags,author);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
@@ -167,15 +170,16 @@ public class PostController {
 				theModel.addAttribute("value", 9);
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
-			else if((tags!=null&&tags.length>0)&&(search.equals("empty"))&&val==1) {//filter and sort old
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==1) {//filter and sort old
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postService.filterAllPostBySortDESC(pageable, tags);
+				Page<Post>tempPost = postService.filterAllPostBySortDESC(pageable, tags,author);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
@@ -183,16 +187,17 @@ public class PostController {
 				theModel.addAttribute("value", 10);
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("object", val); 
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tag", tags); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
 			}
 			
-			else if((tags!=null&&tags.length>0)&&(search.equals("empty"))&&val==0) {//filter and sort
-				for(int i=0;i<tags.length;i++)System.out.println(tags[i]);
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==0) {//filter and sort
+				for(int i=0;i<tags.length;i++)System.out.println(tags[i]); //only filter
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
-				Page<Post>tempPost = postService.findAllByTagsName(pageable, tags);
+				Page<Post>tempPost = postService.findAllByTagsName(pageable, tags,author);
 				List<Post>post=tempPost.getContent();
 				theModel.addAttribute("post",post);
 				theModel.addAttribute("currentPage", pageNumber);
@@ -201,6 +206,7 @@ public class PostController {
 				theModel.addAttribute("searchVal",search);
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tag", tags); 
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
 				return "home";
@@ -216,6 +222,7 @@ public class PostController {
 					theModel.addAttribute("value", 2);
 					theModel.addAttribute("tag", null); 
 					theModel.addAttribute("searchVal","empty");
+					theModel.addAttribute("author", author); 
 					theModel.addAttribute("object", val); 
 					theModel.addAttribute("tags", tagService.getAllTagsUnique());
 					theModel.addAttribute("author", postService.getAuthor());
@@ -231,6 +238,7 @@ public class PostController {
 					theModel.addAttribute("value", 1);
 					theModel.addAttribute("tag", null); 
 					theModel.addAttribute("searchVal","empty");
+					theModel.addAttribute("author", author); 
 					theModel.addAttribute("object", val); 
 					theModel.addAttribute("tags", tagService.getAllTagsUnique());
 					theModel.addAttribute("author", postService.getAuthor());
@@ -246,6 +254,7 @@ public class PostController {
 				theModel.addAttribute("value",5);
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
@@ -262,6 +271,7 @@ public class PostController {
 				theModel.addAttribute("value",4);
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
@@ -277,6 +287,7 @@ public class PostController {
 				theModel.addAttribute("value",3);
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal",search);
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
@@ -293,6 +304,7 @@ public class PostController {
 				theModel.addAttribute("value", 0);
 				theModel.addAttribute("tag", null); 
 				theModel.addAttribute("searchVal","empty");
+				theModel.addAttribute("author", author); 
 				theModel.addAttribute("object", val); 
 				theModel.addAttribute("tags", tagService.getAllTagsUnique());
 				theModel.addAttribute("author", postService.getAuthor());
@@ -306,15 +318,17 @@ public class PostController {
 		theModel.addAttribute("BlogPost",postService.getPostById(id));
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();	
 		if(name=="anonymousUser") {
-			String userName="";
-			theModel.addAttribute("userName", userName);
+			//String userName="";
+			theModel.addAttribute("userName", name);
 			theModel.addAttribute("admin", "");
+			theModel.addAttribute("user", "");
 			
 		}else {
 			User user=userService.findByUsername(name);
 			String userName=user.getName();
 			String admin=user.getRoles();
 			theModel.addAttribute("userName", userName);
+			theModel.addAttribute("user", user);
 			theModel.addAttribute("admin", admin);
 		}
 		System.out.println(postService.getPostById(id).getName());

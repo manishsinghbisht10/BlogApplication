@@ -35,14 +35,14 @@ public interface PostService {
 	
 	public Page<Post> sortTimeASC(Pageable pageable);
 	
-	public Page<Post> findAllByTagsName(Pageable pageable,@Param("tag")String[] tag);
+	public Page<Post> findAllByTagsName(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
 	
-	public Page<Post> filterAllPostBySortDESC(Pageable pageable,@Param("tag")String[] tag);
+	public Page<Post> filterAllPostBySortDESC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
+
+	public Page<Post> filterAllPostBySortASC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
 	
-	public Page<Post> filterAllPostBySortASC(Pageable pageable,@Param("tag")String[] tag);
+	public Page<Post> filterAllPostBySearch(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 	
-	public Page<Post> filterAllPostBySearch(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search);
-	
-	public Page<Post> filterAllPostBySearchASC(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search);
+	public Page<Post> filterAllPostBySearchASC(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
   
 }

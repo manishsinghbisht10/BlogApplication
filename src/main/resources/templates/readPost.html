@@ -45,8 +45,14 @@
 	     <!-- Comment form -->
 	     <h2>Write new Comment</h2>
 		<form action="#" th:action="@{/saveComment/ {id} (id=${BlogPost.id})}"  method="post">
-			     <input name="name" type="text" placeholder="User Name"><br> 
-			     <input name="email"type="text" placeholder="User Email"><br>
+		<div th:if="${!userName.equals('anonymousUser')}">
+			  <input name="name" type="text" th:value="${user.name}" disabled><br> 
+			  <input name="email"type="text" th:value="${user.username}" disabled><br>
+		</div>
+		<div th:if="${userName.equals('anonymousUser')}">
+			  <input name="name" type="text" placeholder="User Name"><br> 
+			  <input name="email"type="text" placeholder="User Email"><br>
+		</div>
 			     <textarea id="comment"name="comment" >Comment here...</textarea><br>
 			     <button style="margin-left:35px" type="submit" name="post_id">Comment</button>
     	</form>
