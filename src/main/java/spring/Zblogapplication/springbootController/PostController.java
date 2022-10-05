@@ -87,13 +87,14 @@ public class PostController {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		User user=userService.findByUsername(name);
 		String str=user.getName();
-		Post newPost=postService.getPostById(post.getId());
-		if(newPost==null) {
-			LocalDateTime datetime = LocalDateTime.now();  
-		    post.setCreatedAt(datetime);
-		}else {
+		if(post.getId()!=0) {
+			Post tempPost=postService.getPostById(post.getId());
+			post.setCreatedAt(tempPost.getCreatedAt());
 			LocalDateTime datetime = LocalDateTime.now();  
 		    post.setUpdatedAt(datetime);
+		}else {
+			LocalDateTime datetime = LocalDateTime.now();  
+		    post.setCreatedAt(datetime);
 		}
 		String tags[]=tagString.split(",");
 		List<Tag> tagList=new ArrayList<>();
@@ -320,8 +321,6 @@ public class PostController {
 	@GetMapping("/updatePost{id}")
 	public String updatePost(@RequestParam("id") int theId,Model theModel) {
 		Post post=postService.getPostById(theId);
-		LocalDateTime datetime = LocalDateTime.now();  
-	    post.setUpdatedAt(datetime);
 		List<Tag> tag=post.getTags();
 		String inputTags="";
 		for(int i=0;i<tag.size();i++)inputTags=inputTags+tag.get(i).getName()+",";

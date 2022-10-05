@@ -2,6 +2,7 @@ package spring.Zblogapplication.springbootEntity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ public class Comments {
 	private int id;
 	@ManyToOne
 	private Post postId;
+	//@Column(length = 3000)
 	private String name;
 	private String email;
 	private String comment;
