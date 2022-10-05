@@ -72,6 +72,7 @@ public class PostController {
 			return "noDraft";
 		}
 	}
+
 	
 	@PostMapping("/saveDraft")
 	public String saveDraft(@RequestParam("id")int id) {
@@ -110,6 +111,9 @@ public class PostController {
 				tagList.add(tempTag);
 			}
 		} 
+		String excerpt=post.getUserBlog();
+		if(excerpt.length()>200)post.setExcerpt(excerpt.substring(0,200));
+		else post.setExcerpt(excerpt);
 		post.setTags(tagList);	
 		post.setName(str);
 		postService.savePost(post);

@@ -13,8 +13,6 @@ public interface PostService {
 
 	public List<Post> getAllPost();
 	
-	
-	
 	public List<Post> getAllDraft();
 	
 	public Set<String> getAuthor();

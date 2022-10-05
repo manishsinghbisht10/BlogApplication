@@ -27,7 +27,7 @@ public class Post {
 	@OneToMany(cascade=CascadeType.ALL,mappedBy = "postId")
 	private List<Comments> comments=new ArrayList<>();
 	private String name;
-	//@Column(length = 3000)
+	@Column(length = 3000)
 	private String userBlog;
 	private String	title;
 	private String excerpt;

@@ -46,8 +46,8 @@
 	     <h2>Write new Comment</h2>
 		<form action="#" th:action="@{/saveComment/ {id} (id=${BlogPost.id})}"  method="post">
 		<div th:if="${!userName.equals('anonymousUser')}">
-			  <input name="name" type="text" th:value="${user.name}" disabled><br> 
-			  <input name="email"type="text" th:value="${user.email}" disabled><br>
+			  <input name="name" type="hidden" th:value="${user.name}" ><br> 
+			  <input name="email"type="hidden" th:value="${user.email}" ><br>
 		</div>
 		<div th:if="${userName.equals('anonymousUser')}">
 			  <input name="name" type="text" placeholder="User Name"><br> 

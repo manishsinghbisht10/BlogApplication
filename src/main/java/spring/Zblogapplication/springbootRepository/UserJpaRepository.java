@@ -8,4 +8,5 @@ import spring.Zblogapplication.springbootEntity.User;
 public interface UserJpaRepository extends JpaRepository<User, Integer>{
 	
 	User findByUsername(String username);
+	 
 }

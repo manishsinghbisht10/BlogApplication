@@ -60,9 +60,10 @@
   		
   		<!-- Print post -->
     <div>
-      <div th:each="obj: ${post}" style="height:200px; width:45%; margin-top:10px;display:inline-block;border-style:solid; padding:0 5px;">
+      <div th:each="obj: ${post}" style="height:210px; width:45%; margin-top:10px;display:inline-block;border-style:solid; padding:0 5px;">
 			<h3 th:text="${obj.name}" />
-			<p th:text="${obj.userBlog}" />
+			<p th:text="${#temporals.format(obj.createdAt, 'dd/MMM/yyyy  HH:mm')}"></p>
+			<p th:text="${obj.excerpt}" />
 			<form action="/readPost" method="post">
 			 	<button type="submit" name="id" th:value="${obj.id}"><strong>Read</strong></button>
 	    	</form>		
@@ -73,83 +74,83 @@
 
   <nav aria-label="Page navigation example">
 	  <ul th:if="${value==2}" class="pagination"><!--pagination and new sort-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if=" ${value==1}" class="pagination"><!--pagination and old sort-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if=" ${value==3}" class="pagination"><!-- searching -->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if=" ${value==4}" class="pagination"><!--search and sort old -->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if=" ${value==5}" class="pagination"><!--search and sort new -->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
-	   <ul th:if=" ${value==0}" class="pagination"><!-- Pagination -->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1})}"  class="page-link" >Next</a></li>
+	   <ul  th:if=" ${value==0}" class="pagination"><!-- Pagination -->
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==6}" class="pagination"><!-- only filter -->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},tag=${tag},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},tag=${tag},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},tag=${tag},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},tag=${tag},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	  <ul th:if="${value==7}" class="pagination"><!-- filter ,search with old sort-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	  <ul th:if="${value==8}" class="pagination"><!--filter search with new sort-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2 },search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2 },search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==9}" class="pagination"><!--filter new sort-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==10}" class="pagination"><!--filter old sort-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==11}" class="pagination"><!--filter author and tag-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==12}" class="pagination"><!--filter and search on author and tag-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==13}" class="pagination"><!--filter and sort new-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==14}" class="pagination"><!-- filter and sort old-->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 	  
 	   <ul th:if="${value==15}" class="pagination"><!--filter search and sort new -->
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/getDataPagination(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 </nav> 
   </body>

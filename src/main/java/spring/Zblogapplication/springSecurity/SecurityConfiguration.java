@@ -33,10 +33,9 @@ public class SecurityConfiguration{
 		return provider;
 	}
 	
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		
-		
 	http
 		.csrf().disable()
 		.authorizeRequests().antMatchers("/","/login","/signInPage","/readPost").permitAll()
