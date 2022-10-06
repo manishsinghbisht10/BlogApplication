@@ -32,7 +32,7 @@ public class UserController {
 	}
 	@PostMapping("/login")
 	public String loginView() {
-		return "redirect:/getDataPagination";
+		return "redirect:/home";
 	}
 		
 	@GetMapping("/logout-sucess")

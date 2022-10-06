@@ -79,7 +79,7 @@ public class PostController {
 		Post post=postService.getPostById(id);
 		post.setIsPublished(true);
 		postService.savePost(post);
-		return "redirect:/getDataPagination";
+		return "redirect:/home";
 	}
 	
 	
@@ -117,15 +117,15 @@ public class PostController {
 		post.setTags(tagList);	
 		post.setName(str);
 		postService.savePost(post);
-		return "redirect:/getDataPagination";
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/")
 	public String homePage() {
-		return "redirect:/getDataPagination";
+		return "redirect:/home";
 	}
 	
-	@GetMapping("/getDataPagination")
+	@GetMapping("/home")
 	public String getData (@RequestParam(value="pageNumber",defaultValue = "1", required = false)int pageNumber,
 			@RequestParam(value="object",defaultValue = "0",required = false)int val,
 			@RequestParam(value="search", defaultValue = "empty",required = false)String search,                                        
@@ -336,7 +336,7 @@ public class PostController {
 	@GetMapping("/deletePost")
 	public String deletePost(@RequestParam("id")int theId,Model theModel) {
 		postService.deletePostById(theId);
-		return "redirect:/getDataPagination";
+		return "redirect:/home";
 	}
 }
 
