@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class Comments {
@@ -18,14 +20,14 @@ public class Comments {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
+	@JsonIgnore
 	@ManyToOne
 	private Post postId;
-	//@Column(length = 3000)
 	private String name;
 	private String email;
 	private String comment;
-	private LocalDateTime created_at;
-	private LocalDateTime updated_at;
+	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	public int getId() {
 		return id;
@@ -57,17 +59,17 @@ public class Comments {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-	public LocalDateTime getCreated_at() {
-		return created_at;
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
-	public void setCreated_at(LocalDateTime created_at) {
-		this.created_at = created_at;
+	public void setCreatedAt(LocalDateTime created_at) {
+		this.createdAt = created_at;
 	}
-	public LocalDateTime getUpdated_at() {
-		return updated_at;
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
-	public void setUpdated_at(LocalDateTime updated_at) {
-		this.updated_at = updated_at;
+	public void setUpdatedAt(LocalDateTime updated_at) {
+		this.updatedAt = updated_at;
 	}
 
 	

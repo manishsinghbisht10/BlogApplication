@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 @Table
 public class Post {
@@ -23,7 +25,7 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	
+	@JsonIgnore
 	@OneToMany(cascade=CascadeType.ALL,mappedBy = "postId")
 	private List<Comments> comments=new ArrayList<>();
 	private String name;
@@ -35,7 +37,7 @@ public class Post {
 	private boolean isPublished;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="post_tags",
 	joinColumns = {@JoinColumn (name="userdata_id")},
@@ -43,7 +45,7 @@ public class Post {
 		)
 	private List<Tag>tags=new ArrayList<>();
 	
-	
+	@JsonIgnore
 	@ManyToOne
 	private User userId;
 	

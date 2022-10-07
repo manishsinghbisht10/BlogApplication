@@ -26,7 +26,7 @@ public class CommentController {
 	@PostMapping("/saveComment/{id}")
 	public String saveComment(@ModelAttribute Comments comment ,@PathVariable("id") int theId,Model theModel) {
 		LocalDateTime datetime = LocalDateTime.now();  
-	    comment.setCreated_at(datetime);
+	    comment.setCreatedAt(datetime);
 		Post post=new Post();
 		post=postService.getPostById(theId);
 		comment.setPostId(post);

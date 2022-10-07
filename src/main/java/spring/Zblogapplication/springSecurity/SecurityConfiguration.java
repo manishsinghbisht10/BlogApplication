@@ -38,9 +38,11 @@ public class SecurityConfiguration{
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	http
 		.csrf().disable()
-		.authorizeRequests().antMatchers("/","/login","/signInPage","/readPost").permitAll()
+		.authorizeRequests().antMatchers("/","/login","/signInPage","/readPost","/api/home").permitAll()
 		.antMatchers("/showAddForm").hasAnyAuthority("USER","ADMIN")
+		.antMatchers("/api/deletePost","/api/updatePost","/api/createPost","/api/deleteComment","/api/updateComment","/api/createComment").hasAnyAuthority("USER","ADMIN")
 	    // .anyRequest().authenticated()
+		.and().httpBasic()
 		.and()
 		.formLogin()
 		.loginPage("/login").permitAll()

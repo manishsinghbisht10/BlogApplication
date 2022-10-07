@@ -1,13 +1,8 @@
 package spring.Zblogapplication.springbootController;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,17 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
-
-import net.bytebuddy.implementation.bytecode.constant.DefaultValue;
 import spring.Zblogapplication.service.TagService;
 import spring.Zblogapplication.service.PostService;
 import spring.Zblogapplication.springbootEntity.Tag;
 import spring.Zblogapplication.springbootEntity.User;
 import spring.Zblogapplication.springbootEntity.Post;
-import spring.Zblogapplication.springbootRepository.PostJpaRepository;
-import spring.Zblogapplication.springbootRepository.TagsJpaRepository;
 import spring.Zblogapplication.springbootRepository.UserJpaRepository;
 
 @Controller
@@ -116,6 +105,7 @@ public class PostController {
 		else post.setExcerpt(excerpt);
 		post.setTags(tagList);	
 		post.setName(str);
+		post.setUserId(user);
 		postService.savePost(post);
 		return "redirect:/home";
 	}
