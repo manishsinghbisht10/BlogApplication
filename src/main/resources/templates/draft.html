@@ -10,7 +10,7 @@
       <div th:each="obj: ${post}" style="height:200px; width:100%; margin-top:10px;display:inline-block;border-style:solid; padding:0 5px;">
 			<h3 th:text="${obj.name}" />
 			<p th:text="${obj.userBlog}"/>
-	    	<h3 style="display:inline-block; margin-top:0;"><a th:href="@{/saveDraft}">Publish</a></h3>
+	    	<h3 style="display:inline-block; margin-top:0;"><a th:href="@{/saveDraft(id=${obj.id})}">Publish</a></h3>
 	    	<h3 style="display:inline-block; margin-top:0; margin-left:10px;"><a th:href="@{/updatePost(id=${obj.id})}">Update</a></h3>	
       </div >
     </div>

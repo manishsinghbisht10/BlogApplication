@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table
 public class Tag {
@@ -21,7 +23,7 @@ public class Tag {
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 	
-	
+	@JsonBackReference
 	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "tags")
 	private List<Post> post=new ArrayList<>();
 	public int getId() {

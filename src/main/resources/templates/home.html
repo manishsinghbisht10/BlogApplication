@@ -27,14 +27,14 @@
   <!-- search -->
   <form style="display:inline-block; margin-left:970px; " action="/home" method="get">
     <input placeholder="search" name="search" type="text"></input>
-    <input type="hidden" name="object" th:value="${val}" />
+    <input type="hidden" name="sortBy" th:value="${sortBy}" />
     <input type="hidden" name="author" th:value="${{author}}" />
     <button name="tag" th:value="${{tag}}" type="submit">Search</button>
   </form>
 
   <!-- sorting -->
   <form style=" margin-left:970px; " action="/home" method="get">
-    <select id="object" name="object">
+    <select id="sortBy" name="sortBy">
       <option value="0" name="val">Sort</option>
       <option value="1" name="val">Old </option>
       <option value="2" name="val">New </option>
@@ -63,7 +63,7 @@
             <label for="auth" th:text="${obj}"></label>
             <br>
           </div>
-          <input type="hidden" name="object" th:value="${val}" />
+          <input type="hidden" name="sortBy" th:value="${val}" />
           <input type="hidden" name="search" th:value="${searchVal}" />
           <button type="submit">Filter</button>
         </form>
@@ -88,13 +88,13 @@
   <!-- Pagination -->
   <nav aria-label="Page navigation example">
 	  <ul  th:if="${value==2}" class="pagination"><!--pagination and new sort-->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${2})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy{2})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if=" ${value==1}" class="pagination"><!--pagination and old sort-->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${1})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${1})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${1})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${1})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if=" ${value==3}" class="pagination"><!-- searching -->
@@ -103,13 +103,13 @@
 	  </ul>
 
 	   <ul th:if=" ${value==4}" class="pagination"><!--search and sort old -->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${1},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${1},search=${'searchVal'})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if=" ${value==5}" class="pagination"><!--search and sort new -->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},search=${'searchVal'})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${2},search=${'searchVal'})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${2},search=${'searchVal'})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul  th:if=" ${value==0}" class="pagination"><!-- Pagination -->
@@ -123,48 +123,48 @@
 	  </ul>
 
 	  <ul th:if="${value==7}" class="pagination"><!-- filter ,search with old sort-->
-	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	  <ul th:if="${value==8}" class="pagination"><!--filter search with new sort-->
-	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2 },search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${2 },search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if="${value==9}" class="pagination"><!--filter new sort-->
-	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if="${value==10}" class="pagination"><!--filter old sort-->
-	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}" class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${1},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if="${value==11}" class="pagination"><!--filter author and tag-->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
-	   <ul th:if="${value==12}" class="pagination"><!--filter and search on author and tag-->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	   <ul th:if="${value==12}" class="pagination"><!--filter and search on author and tag old-->
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if="${value==13}" class="pagination"><!--filter and sort new-->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if="${value==14}" class="pagination"><!-- filter and sort old-->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${1},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 
 	   <ul th:if="${value==15}" class="pagination"><!--filter search and sort new -->
-	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
-	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},object=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
+	    <li th:if="${currentPage>1}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage-1},sortBy=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Previous</a></li>
+	    <li th:if="${currentPage<totalPages}"class="page-item"><a th:href="@{/home(pageNumber=${currentPage+1},sortBy=${2},search=${'searchVal'},tag=${{tag}},author=${{author}})}"  class="page-link" >Next</a></li>
 	  </ul>
 </nav>
   </body>

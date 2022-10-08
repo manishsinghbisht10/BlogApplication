@@ -25,7 +25,7 @@ public class Post {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	@JsonIgnore
+	
 	@OneToMany(cascade=CascadeType.ALL,mappedBy = "postId")
 	private List<Comments> comments=new ArrayList<>();
 	private String name;
@@ -37,7 +37,7 @@ public class Post {
 	private boolean isPublished;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	@JsonIgnore
+	//@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name="post_tags",
 	joinColumns = {@JoinColumn (name="userdata_id")},

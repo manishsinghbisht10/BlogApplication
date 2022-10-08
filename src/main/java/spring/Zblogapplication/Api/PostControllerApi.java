@@ -144,7 +144,7 @@ public class PostControllerApi {
 			@RequestParam(value="search", defaultValue = "",required = false)String search,                                        
 			@RequestParam(value="tag",defaultValue="",required=false)String[] tags,
 			@RequestParam(value="author",defaultValue="",required=false)String[] author){
-			String uName = SecurityContextHolder.getContext().getAuthentication().getName();
+			//String uName = SecurityContextHolder.getContext().getAuthentication().getName();
 			List<Post>post=new ArrayList<>();
 			if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.length()==0)&&(sortBy==0||sortBy==1)) {//only filter
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);

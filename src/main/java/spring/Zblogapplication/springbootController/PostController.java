@@ -54,6 +54,7 @@ public class PostController {
 			}else {
 				String name=userName.getName();
 				List<Post>post=postService.findPostByName(name);
+				if(post.size()==0)return "noDraft";
 				theModel.addAttribute("post", post);
 			}
 			return "draft";
@@ -117,8 +118,8 @@ public class PostController {
 	
 	@GetMapping("/home")
 	public String getData (@RequestParam(value="pageNumber",defaultValue = "1", required = false)int pageNumber,
-			@RequestParam(value="object",defaultValue = "0",required = false)int val,
-			@RequestParam(value="search", defaultValue = "empty",required = false)String search,                                        
+			@RequestParam(value="sortBy",defaultValue = "0",required = false)int val,
+			@RequestParam(value="search", defaultValue = "",required = false)String search,                                        
 			@RequestParam(value="tag",defaultValue="",required=false)String[] tags,
 			@RequestParam(value="author",defaultValue="",required=false)String[] author,
 			Model theModel){
@@ -128,7 +129,7 @@ public class PostController {
 				theModel.addAttribute("role", userName.getRoles());
 			}else theModel.addAttribute("role", "anonymousUser");
 			
-			if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==0||val==1)) {//only filter
+			if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals(""))&&(val==0||val==1)) {//only filter
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterAuthorAndTag(pageable, tags, author);
 				List<Post>post=tempPost.getContent();
@@ -137,7 +138,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 11);
 			}
-			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter and search
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals(""))&&(val==0||val==1)) {//filter and search old
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterSearchOnAuthorAndTag(pageable, tags, search, author);
 				List<Post>post=tempPost.getContent();
@@ -146,7 +147,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 12);
 			}
-			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==2)) {//filter sort new
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals(""))&&(val==2)) {//filter sort new
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterSortAuthorAndTagASC(pageable, tags, author);
 				List<Post>post=tempPost.getContent();
@@ -155,7 +156,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 13);
 			}
-			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals("empty"))&&(val==0||val==1)) {//filter sort old
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(search.equals(""))&&(val==0||val==1)) {//filter sort old
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterSortAuthorAndTagDESC(pageable, tags, author);
 				List<Post>post=tempPost.getContent();
@@ -164,7 +165,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value", 14);
 			}
-			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==2)) {//filter search sort new
+			else if(((tags!=null&&tags.length>0)&&(author!=null&&author.length>0))&&(!search.equals(""))&&(val==2)) {//filter search sort new
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterSearchAndSortAuthorTag(pageable, tags, search, author);
 				List<Post>post=tempPost.getContent();
@@ -174,7 +175,7 @@ public class PostController {
 				theModel.addAttribute("value", 15);
 			}
 			// non And of tag and author
-			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&(val==0||val==1)) {//filter pe search
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals(""))&&(val==0||val==1)) {//filter pe search
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterAllPostBySearch(pageable, tags, search,author);
 				List<Post>post=tempPost.getContent();
@@ -184,7 +185,7 @@ public class PostController {
 				theModel.addAttribute("value", 7);
 			}
 			
-			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals("empty"))&&val==2) {//filter and search in sort new
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(!search.equals(""))&&val==2) {//filter and search in sort new
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterAllPostBySearchASC(pageable, tags, search,author);
 				List<Post>post=tempPost.getContent();
@@ -194,7 +195,7 @@ public class PostController {
 				theModel.addAttribute("value", 8);
 			}
 			
-			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==2) {//filter and sort new
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals(""))&&val==2) {//filter and sort new
 				for(int i=0;i<tags.length;i++)System.out.println(tags[i]);
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterAllPostBySortASC(pageable, tags,author);
@@ -205,7 +206,7 @@ public class PostController {
 				theModel.addAttribute("value", 9);
 			}
 			
-			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==1) {//filter and sort old
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals(""))&&(val==0||val==1)) {//filter and sort old
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.filterAllPostBySortDESC(pageable, tags,author);
 				List<Post>post=tempPost.getContent();
@@ -215,7 +216,7 @@ public class PostController {
 				theModel.addAttribute("value", 10);
 			}
 			
-			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals("empty"))&&val==0) {//filter and sort
+			else if(((tags!=null&&tags.length>0)||(author!=null&&author.length>0))&&(search.equals(""))&&(val==0||val==1)) {//filter and sort
 				for(int i=0;i<tags.length;i++)System.out.println(tags[i]); //only filter
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.findAllByTagsName(pageable, tags,author);
@@ -226,7 +227,7 @@ public class PostController {
 				theModel.addAttribute("value", 6);
 			}
 			
-			else if(search.equals("empty")&&val==2) {//new sort
+			else if(search.equals("")&&val==2) {//new sort
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
 					Page<Post>tempPost = postService.sortTimeASC(pageable);
 					List<Post>post=tempPost.getContent();
@@ -235,7 +236,7 @@ public class PostController {
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 2);
 			}
-			else if(search.equals("empty")&&val==1){  //old
+			else if(search.equals("")&&val==1){  //old
 					Pageable pageable = PageRequest.of(pageNumber-1, 4);
 					Page<Post>tempPost = postService.sortTimeDESC(pageable);
 					List<Post>post=tempPost.getContent();
@@ -244,7 +245,7 @@ public class PostController {
 					theModel.addAttribute("totalPages", tempPost.getTotalPages());
 					theModel.addAttribute("value", 1);
 			}
-			else if((!search.equals("empty"))&&val==2) {//search and new sort
+			else if((!search.equals(""))&&val==2) {//search and new sort
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.searchASC(pageable,search);
 				List<Post>post=tempPost.getContent();
@@ -254,7 +255,7 @@ public class PostController {
 				theModel.addAttribute("value",5);
 			}
 			//old
-			else if((!search.equals("empty"))&&val==1) {//search with old sort
+			else if((!search.equals(""))&&val==1) {//search with old sort
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.search(pageable,search);
 				List<Post>post=tempPost.getContent();
@@ -263,7 +264,7 @@ public class PostController {
 				theModel.addAttribute("totalPages", tempPost.getTotalPages());
 				theModel.addAttribute("value",4);
 			}
-			else if(!search.equals("empty")&&val==0) {//only searching
+			else if(!search.equals("")&&val==0) {//only searching
 				Pageable pageable = PageRequest.of(pageNumber-1, 4);
 				Page<Post>tempPost = postService.search(pageable,search);
 				List<Post>post=tempPost.getContent();
@@ -284,7 +285,7 @@ public class PostController {
 			}
 			theModel.addAttribute("searchVal",search);
 			theModel.addAttribute("tag", tags); 
-			theModel.addAttribute("object", val); 
+			theModel.addAttribute("sortBy", val); 
 			theModel.addAttribute("author", author); 
 			theModel.addAttribute("tags",tagService.getAllTagsUnique());
 			theModel.addAttribute("allAuthor", postService.getAuthor());
