@@ -64,7 +64,7 @@ public class PostController {
 	}
 
 	
-	@PostMapping("/saveDraft")
+	@GetMapping("/saveDraft")
 	public String saveDraft(@RequestParam("id")int id) {
 		Post post=postService.getPostById(id);
 		post.setIsPublished(true);

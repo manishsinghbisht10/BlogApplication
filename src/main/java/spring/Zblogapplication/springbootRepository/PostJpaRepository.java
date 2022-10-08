@@ -36,7 +36,7 @@ public interface PostJpaRepository extends JpaRepository<Post, Integer>{
 	
 	//OR
 	//filter search and sort old OR
-	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) or (p.name IN :author)))")
+	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((t.name like %:search%) or (p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) or (p.name IN :author)))")
 	public Page<Post> filterAllPostBySearch(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 	
 	//filter search and sort new OR
@@ -60,7 +60,7 @@ public interface PostJpaRepository extends JpaRepository<Post, Integer>{
 	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name IN :tag) and (p.name IN :author))")
 	public Page<Post> filterAuthorAndTag(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
 	
-	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((t.name like %:keyword%) or (p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :author)))")
+	@Query("select distinct p from Post p join p.tags t  where p.isPublished is true and ((t.name like %:search%) or (p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :author)))")
 	public Page<Post> filterSearchOnAuthorAndTag(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 	
 	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name IN :tag) and (p.name IN :author)) order by p.id desc")
@@ -69,6 +69,6 @@ public interface PostJpaRepository extends JpaRepository<Post, Integer>{
 	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name IN :tag) and (p.name IN :author))")
 	public Page<Post> filterSortAuthorAndTagDESC(Pageable pageable,@Param("tag")String[] tag,@Param("author")String[] author);
 	
-	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name like %:keyword%) or (p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :author))) order by p.id desc")
+	@Query("select distinct p from Post p join p.tags t where p.isPublished is true and ((t.name like %:search%) or (p.name like %:search%) or (p.userBlog like %:search%) and ((t.name IN :tag) and (p.name IN :author))) order by p.id desc")
 	public Page<Post> filterSearchAndSortAuthorTag(Pageable pageable,@Param("tag")String[] tag,@Param("search")String search,@Param("author")String[] author);
 }
